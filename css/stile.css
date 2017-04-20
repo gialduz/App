@@ -1,0 +1,69 @@
+.unquinto {
+    width: 20%;
+    float: left;
+}
+.unQuarto{
+    width: 25%;
+    float: right;
+}
+
+.cappato {
+    text-transform: uppercase;
+}
+.uppato {
+    text-transform: capitalize;
+}
+
+.txtWhite {
+    color: white;
+}
+
+.itemFasciaEta {
+    width: 10%;
+    min-width: 50px;
+    float: left;
+}
+
+.itemNomeEvento {
+    width: 65%;
+    min-width: 200px;
+    float: left;
+}
+
+.itemBadge {
+    width: 25%;
+    min-width: 150px;
+    float: left;
+}
+
+.inclinata {
+    transform: skew(-20deg, 0deg);
+    -webkit-transform: skew(-20deg, 0deg);
+    -o-transform: skew(-20deg, 0deg);
+    -moz-transform: skew(-20deg, 0deg);
+}
+
+.noPad{padding: 0px; margin: 0px;}
+.resp{width: 100%; height: auto;}
+
+
+#updateBox, #editBox{position: fixed; max-width: 1200px; bottom: 0px;}
+
+th, td{
+    box-shadow: inset 1px 1px 1px #000;
+    -webkit-box-shadow: inset 1px 1px 1px #000;
+    -moz-box-shadow: inset 1px 1px 1px #000;
+    -o-box-shadow: inset 1px 1px 1px #000;
+    padding:8px 4px 8px 4px;
+}
+
+/*PARENTESI QUADERE MULTILINEA*/
+.quadreImg{
+    background-image:url('../img/parentesiQuadre.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    margin-left: 25px;
+    padding-left: 25px;
+    margin-right: 25px;
+    padding-right: 25px;
+}
