@@ -103,7 +103,7 @@
             $(".mostraMappa").click(function(){
                 $("#map").empty();
                 $("#map").slideToggle();
-                setTimeout(function() {initMap()}, 500);;
+                setTimeout(function() {initMap()}, 500);
             });
             </script>';
         $stmt->close();

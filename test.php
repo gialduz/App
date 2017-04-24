@@ -13,7 +13,7 @@
 
 </head>
 
-<body style="max-width:650px; margin:0 auto;">
+<body style="max-width:640px; margin:0 auto;">
 
     
     

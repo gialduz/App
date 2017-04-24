@@ -19,21 +19,21 @@
 }
 
 .itemFasciaEta {
-    width: 10%;
+    /*width: 10%;
     min-width: 50px;
-    float: left;
+    float: left;*/
 }
 
 .itemNomeEvento {
-    width: 65%;
+    /*width: 65%;
     min-width: 200px;
-    float: left;
+    float: left;*/
 }
 
 .itemBadge {
-    width: 25%;
+    /*width: 25%;
     min-width: 150px;
-    float: left;
+    float: left;*/
 }
 
 .inclinata {
@@ -44,6 +44,8 @@
 }
 
 .noPad{padding: 0px; margin: 0px;}
+.padded5{padding: 5px;}
+.padded10{padding: 10px;}
 .resp{width: 100%; height: auto;}
 
 
@@ -67,3 +69,21 @@ th, td{
     margin-right: 25px;
     padding-right: 25px;
 }
+
+
+/*BADGE*/
+.badge{width: 50px; height:50px; padding:0; display:table-cell; vertical-align:middle; text-align:center; margin:0 auto}
+.badge h1{font-size: 20px; font-weight: 800; margin:0; padding:0}
+.badge p{font-size: 13px; margin:0; padding:0}
+.badgeContainer{text-align: center; width: 50px; float: left;}
+.badgeContainer span{font-size: 10px; margin:0; padding:0; text-transform: uppercase;}
+.spazioBadge{width:10px; height: 75px; float:left;}
+
+
+
+
+/*RESPONSIVE personali*/
+@media (max-width: 240px) {.hide240{display: none;}}
+@media (max-width: 360px) {.hide360{display: none;}}
+@media (max-width: 480px) {.hide480{display: none;}}
+@media (max-width: 640px) {.hide640{display: none;}}

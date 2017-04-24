@@ -9,26 +9,30 @@
     
     <link rel="stylesheet" href="css/w3.css">
     <link rel="stylesheet" href="css/stile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
     <script src="js/jquery.js"></script>
 
 </head>
 
-<body style="max-width:650px; margin:0 auto;">
-
+<body style="max-width:640px; margin:0 auto;">
     
+    <script src="js/menu.js"></script>
     
+    <div class="w3-container w3-blue w3-center">
+    <h2>Luoghi</h2>
+    </div>
     
-<?php
+    <?php
 
-include 'php/mieFunzioni.php';
-require 'php/configurazione.php';// richiamo il file di configurazione
-require 'php/connessione.php';// richiamo lo script responsabile della connessione a MySQL
+    include 'php/mieFunzioni.php';
+    require 'php/configurazione.php';// richiamo il file di configurazione
+    require 'php/connessione.php';// richiamo lo script responsabile della connessione a MySQL
 
-echo stampaMappaLuoghi();
-echo stampaElencoLuoghi();
+    echo stampaMappaLuoghi();
+    echo stampaElencoLuoghi();
 
-$conn->close();
-?>
+    $conn->close();
+    ?>
 </body>
 
 </html>

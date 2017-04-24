@@ -11,15 +11,15 @@ require 'funzioniMappeLuoghi.php';
                 .stampaTesto($numeroEvento, $conn)
                 .stampaDove($numeroEvento, $conn)
                 .stampaMappaEvento($numeroEvento)
-                .stampaQuando($numeroEvento, $conn)
+                .stampaBadgeQuando($numeroEvento)
                 .stampaBadge($numeroEvento, $conn)."</div>";
     }
 
-    function stampaEventoFoto($numeroEvento, $conn) {
+    function stampaEventoFoto($numeroEvento) { // per web meglio riga -> sopra titolo?
         return "<div class='w3-row'>"
 
             . "<div class='w3-threequarter'>"
-                .stampaEventoTest($numeroEvento, $conn)
+                .stampaEvento($numeroEvento)
             . "</div>"
             . "<div class='w3-quarter w3-black'>"
                     ."F<br>O<br>T<br>A<br>Z<br>Z<br>A<br><br>M<br>O<br>L<br>T<br>O<br><br>S<br>T<br>R<br>E<br>T<br>T<br>A"
@@ -39,7 +39,7 @@ require 'funzioniMappeLuoghi.php';
         $stmt->fetch();
         $stmt->close();
         
-        return "<div class='w3-center w3-blue'><h1>" . $nome . "</h1></div>" . verificaSpecialeRagazzi($numeroEvento, $conn);
+        return "<div class='w3-row'><h2>" . $nome . "</h2></div>" . verificaSpecialeRagazzi($numeroEvento, $conn);
 
     }
 
@@ -70,7 +70,7 @@ require 'funzioniMappeLuoghi.php';
                 $daRitornare.= ", ". stampaNome($id, $conn);
             }else{
                 if($ultimaTipologia != "babbi l'orsetto"){$daRitornare.= "<br>";}
-                $daRitornare.= "<b class='cappato'>" . $nome_tipo_rapporto . ":</b> ";
+                $daRitornare.= "<span class='cappato'>" . $nome_tipo_rapporto . ":</span> ";
                 $daRitornare.= stampaNome($id);
             }
             
@@ -106,7 +106,7 @@ require 'funzioniMappeLuoghi.php';
         return  "<div class='l12 w3-justify'>"
                     ."<p>" . $ita . "</p>"
                 ."</div>"
-                ."<div class='l12 w3-center w3-yellow w3-card-4' style='padding:1px;'>"
+                ."<div class='l12 w3-center padded5 w3-leftbar w3-light-blue w3-border-blue'>"
                     ."<p>" . $eng . "</p>"
                 ."</div>";
         $stmt->close();
@@ -121,11 +121,11 @@ require 'funzioniMappeLuoghi.php';
         $stmt->fetch();
         
         return  "<div class='w3-row'>"
-                    ."<div class='w3-col s9'>"
-                        ."<h2> Luogo: " . $dove . "<h2>"
+                    ."<div class='w3-col s9 cappato'>"
+                        ."<h4><b>" .$dove. "</b><h4>"
                     ."</div>"
                     ."<div class='w3-col s3 '>"
-                        ."<h3><button class='w3-button w3-block w3-ripple w3-dark-grey w3-hover-grey w3-round-large mostraMappa'>Mostra Mappa</button></h3>"
+                        ."<h5><button class='w3-button w3-block w3-food-spearmint w3-hover-green w3-round-large mostraMappa'><i class='fa fa-map-marker' aria-hidden='true'></i> Maps</button></h5>"
                     ."</div>"
                 ."</div>";
         $stmt->close();
@@ -148,8 +148,92 @@ require 'funzioniMappeLuoghi.php';
         $daRitornare.= "</div>";
         return $daRitornare;
     }
-    
-    function stampaBadge($numeroEvento, $conn) { // BADGES
+
+    function stampaBadgeQuando($numeroEvento) {
+        require 'php/configurazione.php';
+        require 'php/connessione.php';
+        $stmt = $conn->prepare("SELECT eld.data_ora FROM eventoLuogoData AS eld WHERE eld.id_evento = ?");
+        $stmt->bind_param("i", $numeroEvento);
+        $stmt->execute();
+        $stmt->bind_result($data_ora);
+        
+        $daRitornare="";        
+        $ultimoGiornoNumero= 0;
+        while($stmt->fetch()) {
+            if($ultimoGiornoNumero != soloGiorno(soloData($data_ora))){
+                $daRitornare.= ""
+                    ."<div class='badgeContainer'>"
+                        .'<div class="badge w3-food-salmon">'
+                            ."<h1>" . soloGiorno(soloData($data_ora)) . "</h1>" 
+                            . "<p>". substr (giornoIta(date('l', strtotime($data_ora))), 0,3) ."</p>"
+                        .'</div>'
+                        . "<span>". tagliaSec(soloOra($data_ora)) . "</span>"
+                    ."</div>";
+
+                $daRitornare.= "<i style='width:10px; float:left'>&nbsp;</i>"; //spazio 10px orizzontale
+            } else {
+                $daRitornare.= '<script>$("span").last().append("<br>'.tagliaSec(soloOra($data_ora)).'");</script>';
+                
+            }
+            $ultimoGiornoNumero= soloGiorno(soloData($data_ora));            
+        }
+        return $daRitornare;
+    }
+
+
+    function stampaBadge($numeroEvento) { // BADGES
+        require 'php/configurazione.php';
+        require 'php/connessione.php';
+
+        $sql = "SELECT E.eta_min, E.eta_max, E.ticket, E.durata, te.nome AS tipo, L.lettera, L.colore AS doveLettera FROM (((Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id = eld.id_evento) INNER JOIN Luogo AS L ON L.id = eld.id_luogo) INNER JOIN tipologiaEvento AS te ON E.tipologia = te.id) WHERE E.id = ?";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $numeroEvento);
+        $stmt->execute();
+        $stmt->bind_result($eta_min, $eta_max, $ticket, $durata, $tipo_evento, $lettera, $colore);
+        $stmt->fetch();
+         if($ticket){$ticketSN= '€';} else{$ticketSN= 'Free';}
+         
+        
+        return  "<div class='w3-center w3-row'>"
+                    ."<div class='badgeContainer'>"
+                        ."<div class='badge w3-blue'><h6><b>". $eta_min."-". $eta_max ."</b></h6></div>"
+                        ."<span> et&agrave; </span>"
+                    ."</div>"
+                    ."<i class='spazioBadge'>&nbsp;</i>" //spazio 10px orizzontale
+                    ."<div class='badgeContainer'>"
+                        ."<div class='badge w3-".$colore."'><h6><b>". $lettera ."</b></h6></div>"
+                        ."<span> luogo </span>"
+                    ."</div>"
+                    ."<i class='spazioBadge'>&nbsp;</i>" //spazio 10px orizzontale
+                    ."<div class='badgeContainer'>"
+                        ."<div class='badge w3-yellow'><h6><b>". $ticketSN ."</b></h6></div>"
+                        ."<span> ticket </span>"
+                    ."</div>"
+                    ."<i class='spazioBadge'>&nbsp;</i>" //spazio 10px orizzontale
+                    ."<div class='badgeContainer'>"
+                        ."<div class='badge w3-dark-grey'><h6><b>". $durata ."'</b></h6></div>"
+                        ."<span> minuti </span>"
+                    ."</div>"
+                    ."<i class='spazioBadge'>&nbsp;</i>" //spazio 10px orizzontale
+                    ."<div class='badgeContainer'>"
+                        ."<div class='badge w3-cyan'><img src='img/tipologiaEvento/".$tipo_evento.".png' class='resp'></div>"
+                        ."<span>".$tipo_evento."</span>"
+                    ."</div>"
+                    /*."<div class='unquinto w3-purple'>"
+                        ."<p>Durata: ". $durata ." </p>"
+                    ."</div>"
+                    ."<div class='unquinto w3-cyan'>"
+                        ."<p class='uppato'>" . $tipo_evento ." </p>"
+                    ."</div>"*/
+                 ."</div>";
+
+    }
+
+
+
+
+    function stampaBadgeTest($numeroEvento, $conn) { // BADGES
         
         $sql = "SELECT E.eta_min, E.eta_max, E.ticket, E.durata, te.nome AS tipo, L.lettera AS doveLettera FROM (((Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id = eld.id_evento) INNER JOIN Luogo AS L ON L.id = eld.id_luogo) INNER JOIN tipologiaEvento AS te ON E.tipologia = te.id) WHERE E.id = ?";
         
@@ -197,7 +281,9 @@ require 'funzioniMappeLuoghi.php';
         $ultimaData = "pagliaccio baraldi";
         while($stmt->fetch()) {               
             if($ultimaData != dataIta($data_ora)) {
-                $daRitornare.= "". "<h2 class='w3-orange w3-center cappato giornoTutti giorno".soloData($data_ora)."'>" . dataIta($data_ora) . "</h2>" ;
+                $daRitornare.=  "<h2 style='margin:0;' class='w3-orange w3-center cappato giornoTutti giorno"
+                    .soloData($data_ora)."'>" . dataIta($data_ora) . "</h2>"
+                    ."<div class='w3-row w3-padding giornoTutti giorno".soloData($data_ora)."'>Et&agrave;</div>";
             }
 
             $daRitornare.= stampaIstanzaEvento($id, soloData($data_ora));
@@ -220,15 +306,21 @@ require 'funzioniMappeLuoghi.php';
         $stmt->fetch();
         
         $daRitornare.= "<a href='dettaglioEvento.php?evento=".$numeroEvento."'><div class='w3-row w3-hover-grey w3-padding giornoTutti giorno" .$data. "'>" 
-                        ."<div class='itemFasciaEta w3-center w3-blue'>"
-                            .$eta_min." - ".$eta_max
+                        ."<div class='itemFasciaEta w3-center w3-blue w3-col s2 m1'>"
+                            .$eta_min."-".$eta_max
                         ."</div>"
-                        ."<div class='itemNomeEvento w3-half'>"
-                            .soloOra($data_ora)
-                            ." <b>" . $nome_evento . "</b>"
-                            ." - " . $dove
+                        ."<div class='itemNomeEvento w3-col s7 m8'>"
+                            ."<div class='w3-col m2 s4 w3-container'>"
+                                .soloOra($data_ora)
+                            ."</div>"
+                            ."<div class='w3-col s8 w3-container'>"
+                                ."<b>" . $nome_evento . "</b>"
+                            ."</div>"
+                            ."<div class='w3-col s12 w3-container'>"
+                                . $dove
+                            ."</div>"
                         ."</div>"
-                        ."<div class='itemBadge w3-quarter w3-center'>"
+                        ."<div class='w3-col s3 w3-center hide480'>"
                             .stampaItemBadge($id)
                         ."</div>"
                     ."</div></a>";
@@ -249,8 +341,8 @@ require 'funzioniMappeLuoghi.php';
         $stmt->fetch();
         
         
-        if($speciale_ragazzi){return "<div class='unQuarto'>"
-                                    ."<div class='w3-purple inclinata' style='width:80%;'> <b>T</b> </div> "
+        if($speciale_ragazzi){return "<div class='w3-col s3'>"
+                                    ."<div class='w3-purple inclinata' style='width:80%; float:right;'> <b>T</b> </div> "
                                 ."</div>";}
         return "";
     }
@@ -264,8 +356,8 @@ require 'funzioniMappeLuoghi.php';
         $stmt->execute();
         $stmt->bind_result($speciale);
         $stmt->fetch();
-        if($speciale){return "<div class='unQuarto'>"
-                                    ."<div class='w3-red inclinata' style='width:80%;'> <b>S</b> </div> "
+        if($speciale){return "<div class='w3-col s3'>"
+                                    ."<div class='w3-red inclinata' style='width:80%; float:right;'> <b>S</b> </div> "
                                 ."</div>";}
         return "";
     }
@@ -283,14 +375,15 @@ require 'funzioniMappeLuoghi.php';
         $stmt->bind_result($durata, $ticket, $speciale_ragazzi, $tipo_evento);
         $stmt->fetch();
         
-        $str =  "<div class='unQuarto w3-blue'>"
-                    ."€".$ticket
+        $str =  "";
+        $str .= "<div class='w3-col s3 w3-orange uppato'>"
+                    .substr( $tipo_evento, 0, 3 )
                 ."</div>"
-                ."<div class='unQuarto w3-green'>"
+                ."<div class='w3-col s3 w3-green'>"
                     .$durata. "'"
                 ."</div>"
-                ."<div class='unQuarto w3-orange uppato'>"
-                    .substr( $tipo_evento, 0, 3 )
+                ."<div class='w3-col s3 w3-blue'>"
+                    ."€".$ticket
                 ."</div>";
         $str .= specialeRagazziItemBadge($numeroEvento);
         $str .= specialeItemBadge($numeroEvento);
