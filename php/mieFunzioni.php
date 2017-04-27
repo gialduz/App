@@ -6,7 +6,7 @@ require 'funzioniMappeLuoghi.php';
     function stampaEvento($numeroEvento) {
         require 'configurazione.php';// richiamo il file di configurazione
         require 'connessione.php';// richiamo lo script responsabile della connessione a MySQL
-        return   "<div class='w3-container'>".stampaTitolo($numeroEvento, $conn)
+        return   "<div class='w3-container w3-pale-yellow'>".stampaTitolo($numeroEvento, $conn)
                 .stampaPersona($numeroEvento, $conn)
                 .stampaTesto($numeroEvento, $conn)
                 .stampaDove($numeroEvento, $conn)
@@ -89,10 +89,12 @@ require 'funzioniMappeLuoghi.php';
         $stmt->fetch();
 
         if($alt_name != "" && $tipologia != 1){
-            return $alt_name;
+            return "<a href='artista.php?id=".$id_persona."' class='w3-text-purple'>". $alt_name . "</a>";
         }else{
-            if($alt_name != ""){return $nome . " " . $cognome. " (".$alt_name.")";}
-            return $nome . " " . $cognome;
+            if($alt_name != ""){
+            return "<a href='artista.php?id=".$id_persona."' class='w3-food-spearmint'>&nbsp; ". $nome . " " . $cognome. " (".$alt_name.")". "&nbsp; </a>";
+            }
+            return "<a href='artista.php?id=".$id_persona."' class='w3-food-spearmint'>&nbsp; ".$nome . " " . $cognome. "&nbsp; </a>";
         }
     }  
     
@@ -114,15 +116,15 @@ require 'funzioniMappeLuoghi.php';
     
     function stampaDove($numeroEvento, $conn) { // LUOGO E DATE EVENTO(i)
         
-        $stmt = $conn->prepare("SELECT L.nome AS dove FROM ((Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id = eld.id_evento) INNER JOIN Luogo AS L ON L.id = eld.id_luogo) WHERE E.id = ?");
+        $stmt = $conn->prepare("SELECT L.id, L.nome FROM ((Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id = eld.id_evento) INNER JOIN Luogo AS L ON L.id = eld.id_luogo) WHERE E.id = ?");
         $stmt->bind_param("i", $numeroEvento);
         $stmt->execute();
-        $stmt->bind_result($dove);
+        $stmt->bind_result($id, $nome);
         $stmt->fetch();
         
         return  "<div class='w3-row'>"
                     ."<div class='w3-col s9 cappato'>"
-                        ."<h4><b>" .$dove. "</b><h4>"
+                        ."<a href='dettaglioLuogo.php?q=".$id."'><h4><b>" .$nome. "</b><h4><a>"
                     ."</div>"
                     ."<div class='w3-col s3 '>"
                         ."<h5><button class='w3-button w3-block w3-food-spearmint w3-hover-green w3-round-large mostraMappa'><i class='fa fa-map-marker' aria-hidden='true'></i> Maps</button></h5>"
@@ -271,7 +273,7 @@ require 'funzioniMappeLuoghi.php';
         include 'configurazione.php';
         include 'connessione.php';
         
-        $sql = "SELECT E.id, eld.data_ora FROM Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id = eld.id_evento ORDER BY data_ora, id;";
+        $sql = "SELECT E.id, eld.data_ora FROM Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id = eld.id_evento "./* WHERE eld.data_ora LIKE '2016%'*/ "ORDER BY data_ora, id;";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $stmt->bind_result($id, $data_ora);

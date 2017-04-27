@@ -3,9 +3,10 @@
 
 function dataIta($dataBrutta){
 
-    return  giornoIta(date('l', strtotime($dataBrutta))) ." " 
+    return  giornoIta(date('l', strtotime($dataBrutta))) . " " 
             . date('j', strtotime($dataBrutta)) . " "
-            . meseIta(date('n', strtotime($dataBrutta)));
+            . meseIta(date('n', strtotime($dataBrutta))) . " "
+            . date('Y', strtotime($dataBrutta));
 }
 
 function tagliaSec($ora){ return substr( $ora, 0, 5 );}

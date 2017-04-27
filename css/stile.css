@@ -1,3 +1,5 @@
+body{font-size:14px;}
+
 .unquinto {
     width: 20%;
     float: left;
@@ -79,7 +81,19 @@ th, td{
 .badgeContainer span{font-size: 10px; margin:0; padding:0; text-transform: uppercase;}
 .spazioBadge{width:10px; height: 75px; float:left;}
 
-
+/* gestione links A HREF*/
+a:link {
+    text-decoration: none;
+}
+a:visited {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+a:active {
+    text-decoration: underline;
+}
 
 
 /*RESPONSIVE personali*/
@@ -87,3 +101,9 @@ th, td{
 @media (max-width: 360px) {.hide360{display: none;}}
 @media (max-width: 480px) {.hide480{display: none;}}
 @media (max-width: 640px) {.hide640{display: none;}}
+
+
+
+
+/*COLORI custom*/
+.purple{background-color: #99004d; color: white;}

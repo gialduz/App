@@ -32,7 +32,7 @@
             require 'php/configurazione.php';// richiamo il file di configurazione
             require 'php/connessione.php';// richiamo lo script responsabile della connessione a MySQL
 
-            $stmt = $conn->prepare("SELECT data_ora FROM eventoLuogoData WHERE 1 ORDER BY data_ora");
+            $stmt = $conn->prepare("SELECT data_ora FROM eventoLuogoData WHERE data_ora LIKE '2016%' ORDER BY data_ora");
             $stmt->execute();
             $stmt->bind_result($data_ora);
             

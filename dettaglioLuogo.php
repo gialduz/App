@@ -5,7 +5,7 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     
-    <title>Artisti - Segni d'Infanzia</title>
+    <title>Dettaglio Luogo - Segni d'Infanzia</title>
     
     <link rel="stylesheet" href="css/w3.css">
     <link rel="stylesheet" href="css/stile.css">
@@ -17,92 +17,89 @@
 <body style="max-width:640px; margin:0 auto;">
 
     <script src="js/menu.js"></script>
-    
-    
-    
-        
-        
 
       <!-- The Grid -->
-        <div class="w3-row w3-pale-red">
+        <div class="w3-row w3-pale-blue">
             
             <?php
                 include 'php/mieFunzioni.php';
-                $id_artista= $_GET["id"];
-                function stampaDettaglioArtista($id_artista) {
+                $id_luogo= $_GET["q"];
+                function stampaDettaglioLuogo($id_luogo) {
                     include 'php/configurazione.php';
                     include 'php/connessione.php';
-                    $sql=   "SELECT P.id, P.nome, P.cognome, P.alt_name, P.titolo, P.biografia FROM Persona AS P WHERE P.id= ?";
+                    $sql=   "SELECT L.id, L.nome, L.latitudine, L.longitudine FROM Luogo AS L WHERE L.id= ?";
                     $stmt = $conn->prepare($sql);
-                    $stmt->bind_param("i", $id_artista);
+                    $stmt->bind_param("i", $id_luogo);
                     $stmt->execute();
-                    $stmt->bind_result($id, $nome, $cognome, $alt_name, $titolo, $biografia);        
+                    $stmt->bind_result($id, $nome, $latitudine, $longitudine);        
                     $stmt->fetch();
                     //HEADER
-                    $daRitornare= '<div class="w3-container w3-purple"><h2>'.$nome.' '.$cognome.' <small>'.$alt_name.'</small></h2></div>';
+                    $daRitornare= '<div class="w3-container w3-blue"><h2>&nbsp;'.$nome.'</h2></div>';
                     
                     $daRitornare.= '
                     <!-- Left Column -->
                     <div id="paddingContenutoTranneHeader" class="padded10">
                         <div class="w3-third">
 
-                            <div class="w3-text-grey w3-center">
+                            <div class="w3-text-grey">
                                 <div class="w3-display-container">
-                                    <img src="img/img_avatar3.png" style="width:100%" alt="QuiVaAvatar">
+                                    <img src="img/bibiena.jpg" style="width:100%" alt="QuiVaAvatar">
                                 </div>
-                                <div class="padded10">
+                                <div class="padded10 w3-white w3-center">
+                                    <a href="http://maps.apple.com/?q='.$nome.'&daddr='.$latitudine.', '.$longitudine.'&dirflg=w" target="_blank">
+                                        <button class="w3-button w3-green w3-hover-orange w3-round-xxlarge">
+                                            <i class="fa fa-road" aria-hidden="true"></i> Portami qui! <i class="fa fa-location-arrow" aria-hidden="true"></i>
+                                        </button>
+                                    </a>
+                                    <hr>
                                     <h5>Eventi correlati:</h5>'
-                                    .stampaEventiCorrelati($id_artista).
+                                    .stampaEventiCorrelati($id_luogo).
                                 '</div>
                             </div><br>
-
                         <!-- End Left Column -->
                         </div>';
-                        $daRitornare.= '<!-- Right Column -->
-                        <div class="w3-twothird">
 
-                            <div class="w3-container">
-                                <h2 class="w3-text-grey noPad">Biografia</h2>
-                                <p>'.$biografia.'</p>
+                        $daRitornare.= '<!-- Right Column -->
+                        <div class="w3-twothird w3-container">
+
+                            <div class="">
+                                <h2 class="w3-text-grey noPad"> Descrizione luogo:</h2>
+                                <p> Descrizione del luogo che bla skso sjweiee dd djis sksdjdnd ss ad e fscxsx ttfd. </p>
                             </div>
 
                         <!-- End Right Column -->
                         </div>
                     </div>';
                     
-                    
-
-                    
                     $conn->close();
                     return $daRitornare;
                 }
                 
-                function stampaEventiCorrelati($id_artista) {
+                function stampaEventiCorrelati($id_luogo) {
                     include 'php/configurazione.php';
                     include 'php/connessione.php';
-                    $sql=   "SELECT DISTINCT E.id, E.nome FROM (Evento AS E INNER JOIN eventoPersona AS ep ON E.id=ep.id_evento) WHERE ep.id_persona= ? ORDER BY E.id";
+                    $sql=   "SELECT DISTINCT E.id, E.nome FROM (Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id=eld.id_evento) WHERE eld.id_luogo= ? ORDER BY E.id";
                     $stmt = $conn->prepare($sql);
-                    $stmt->bind_param("i", $id_artista);
+                    $stmt->bind_param("i", $id_luogo);
                     $stmt->execute();
                     $stmt->store_result(); //nescessario per num_rows
                     $stmt->bind_result($id, $nome); 
                     if($stmt->num_rows) {
-                        while($stmt->fetch())   { $daRitornare.= '<a href="dettaglioEvento.php?evento='.$id.'"><div class="w3-text-purple"><p>#'.$id.' '.$nome.'</p></div></a>'; }
+                        while($stmt->fetch())   { $daRitornare.= '<a href="dettaglioEvento.php?evento='.$id.'"><div class="w3-text-blue"><p>[#'.$id.'] '.$nome.'</p></div></a>'; }
                     } else { $daRitornare= "Nessun evento"; }
                     
                     $conn->close();
                     return $daRitornare;
                 }
             
-                //echo stampaEventiCorrelati($id_artista);
+                //echo stampaEventiCorrelati($id_luogo);
                 //echo "<br><hr><br>";
-                echo stampaDettaglioArtista($id_artista);
+                echo stampaDettaglioLuogo($id_luogo);
                 ?>
 
       <!-- End Grid -->
       </div>
-        
-        
+    
     
     
 </body>
