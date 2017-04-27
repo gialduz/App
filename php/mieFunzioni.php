@@ -6,8 +6,8 @@ require 'funzioniMappeLuoghi.php';
     function stampaEvento($numeroEvento) {
         require 'configurazione.php';// richiamo il file di configurazione
         require 'connessione.php';// richiamo lo script responsabile della connessione a MySQL
-        return   "<div class='w3-container w3-pale-yellow'>".stampaTitolo($numeroEvento, $conn)
-                .stampaPersona($numeroEvento, $conn)
+        return   stampaTitolo($numeroEvento, $conn)
+                ."<div class='w3-pale-red w3-container'>".stampaPersona($numeroEvento, $conn)
                 .stampaTesto($numeroEvento, $conn)
                 .stampaDove($numeroEvento, $conn)
                 .stampaMappaEvento($numeroEvento)
@@ -39,7 +39,7 @@ require 'funzioniMappeLuoghi.php';
         $stmt->fetch();
         $stmt->close();
         
-        return "<div class='w3-row'><h2>" . $nome . "</h2></div>" . verificaSpecialeRagazzi($numeroEvento, $conn);
+        return "<div class='w3-container w3-purple'><h2>" . $nome . "</h2></div>" . verificaSpecialeRagazzi($numeroEvento, $conn);
 
     }
 
@@ -92,9 +92,9 @@ require 'funzioniMappeLuoghi.php';
             return "<a href='artista.php?id=".$id_persona."' class='w3-text-purple'>". $alt_name . "</a>";
         }else{
             if($alt_name != ""){
-            return "<a href='artista.php?id=".$id_persona."' class='w3-food-spearmint'>&nbsp; ". $nome . " " . $cognome. " (".$alt_name.")". "&nbsp; </a>";
+            return "<a href='artista.php?id=".$id_persona."' class='w3-text-green'>". $nome . " " . $cognome. " (".$alt_name.")". "</a>";
             }
-            return "<a href='artista.php?id=".$id_persona."' class='w3-food-spearmint'>&nbsp; ".$nome . " " . $cognome. "&nbsp; </a>";
+            return "<a href='artista.php?id=".$id_persona."' class='w3-text-green'>".$nome . " " . $cognome. "</a>";
         }
     }  
     
@@ -127,7 +127,7 @@ require 'funzioniMappeLuoghi.php';
                         ."<a href='dettaglioLuogo.php?q=".$id."'><h4><b>" .$nome. "</b><h4><a>"
                     ."</div>"
                     ."<div class='w3-col s3 '>"
-                        ."<h5><button class='w3-button w3-block w3-food-spearmint w3-hover-green w3-round-large mostraMappa'><i class='fa fa-map-marker' aria-hidden='true'></i> Maps</button></h5>"
+                        ."<h5><button class='w3-button w3-block dark-green w3-hover-green w3-round-large mostraMappa'><i class='fa fa-map-marker' aria-hidden='true'></i> Maps</button></h5>"
                     ."</div>"
                 ."</div>";
         $stmt->close();

@@ -59,7 +59,7 @@
     
     <div class="w3-center">
         <div class='w3-padding' style="cursor: pointer">
-            <span id='vediTuttiEventi' class='w3-green w3-padding' onclick="resetProgramma()">Programmazione completa</span>
+            <span id='vediTuttiEventi' class='w3-green w3-padding' onclick="resetProgramma()">Clicca qui per tornare alla<br>programmazione completa</span>
         </div>
     </div>
     

@@ -2,38 +2,12 @@
 <html>
     <meta name="viewport" charset="utf-8" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/stile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
     <script src="js/jquery.js"></script>
     <style>
-        .icona{width:50px; height: 50px;}
-        
-        
-        
-        
-        .categoriaHomeBox {
-            height: 125px;
-            filter: none;
-           -webkit-filter: brightness(40%);
-           -moz-filter: brightness(40%);
-           filter: brightness(40%);
-           transition: all 0.5s ease;
-         }
-
-        .categoriaHomeBox:hover {
-           -webkit-filter: brightness(100%);
-           -moz-filter: brightness(100%);
-           filter: brightness(100%);
-         }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        .icona{width:50px; height: 50px;}  
+        .categoriaHomeBox {height: 125px;}
         
         @media (max-width: 360px) {.categoriaHomeBox{height:100px;} .categoriaHomeBox > h3, i{font-size:16px;} }
     </style>
@@ -46,19 +20,19 @@
     </div>
     
     <div class="w3-row">
-        <a href="programma.php"><div class="categoriaHomeBox w3-col w3-center s6 w3-purple">
+        <a href="programma.php"><div class="categoriaHomeBox w3-col w3-center s6 l12 dark-purple w3-hover-purple">
             <h3>PROGRAMMA</h3>
             <i class="fa fa-table fa-3x"></i>
         </div></a>
-         <a href="artisti.php"><div class="categoriaHomeBox w3-col w3-center s6 w3-orange">
+         <a href="artisti.php"><div class="categoriaHomeBox w3-col w3-center s6 l12 dark-orange w3-hover-orange w3-hover-text-white">
             <h3>ARTISTI</h3>
             <div class="w3-center"><img class="icona" src="img/icon/artista.png" class="w3-image"></div>
         </div></a>
-        <a href="luoghi.php"><div class="categoriaHomeBox w3-col w3-center s6 w3-blue">
+        <a href="luoghi.php"><div class="categoriaHomeBox w3-col w3-center s6 dark-blue w3-hover-blue">
             <h3>LUOGHI</h3>
-            <i class="fa fa-globe fa-3x"></i>
+            <div class="w3-center"><img class="icona" src="img/icon/mantova-skyline-sl.png" class="w3-image"></div>
         </div></a>
-        <a href="mockupInfo.html#-infoBiglietti"><div class="categoriaHomeBox w3-col w3-center s6 w3-green">
+        <a href="mockupInfo.html#-infoBiglietti"><div class="categoriaHomeBox w3-col w3-center s6 dark-green w3-hover-green">
             <h3>INFO</h3>
             <i class="fa fa-info-circle fa-3x"></i>
         </div></a>

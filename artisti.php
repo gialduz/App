@@ -18,7 +18,7 @@
 
     <script src="js/menu.js"></script>
     
-    <div class="w3-container w3-purple w3-center"><h2>Artisti</h2></div>
+    <div class="w3-container w3-orange w3-text-white w3-center"><h2>Artisti</h2></div>
 
     <div class="w3-row w3-blue padded5">
         <div class="w3-third">Cerca Artista:</div>
@@ -53,7 +53,7 @@
     }
     function stampaArtista($id, $nome, $cognome, $alt_name) {
         $daRitornare= "<a href='artista.php?id=".$id."'>"
-            ."<div class='w3-row padded10 w3-hover-orange'>"
+            ."<div class='w3-row padded10 w3-hover-grey'>"
                 ."<div class='w3-col l12 w3-center'> ".$nome." ".$cognome." <i style='color:grey'>".$alt_name."</i> </div>"
             ."</div>" ."<hr style='padding:0; margin:0;'>"
             ."</a>";

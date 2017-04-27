@@ -1,6 +1,6 @@
 //<!-- Side navigation -->
     var sideMenu = '<link href="https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">'+
-    '<nav id="sideMenu" class="w3-sidebar w3-bar-block w3-bottombar w3-rightbar" style="width:360px;">'+
+    '<nav id="sideMenu" class="w3-sidebar w3-bar-block" style="width:360px;">'+
         '<div class="w3-dark-grey w3-row">'+
             '<div class="w3-half">'+
                 '<a href="javascript:void(0)" onclick="closeSidebar()" class="w3-button">'+
@@ -36,7 +36,7 @@
     '<style> @media (max-width: 480px) { .spazioFissoResponsive{width:0px;} </style>'+
     '<style> @media (max-width: 320px) { .spazioFissoResponsive{width:0px;} #menuBox, #logoBox{width:75px} </style>'+
     '<div id="menuBar" class="w3-dark-grey w3-row" style="height:75px;">'+
-        '<div id="menuBox" style="height:100%; float:left" class="w3-button w3-grey w3-hover-orange w3-large" onclick="openSidebar()">'+
+        '<div id="menuBox" style="height:100%; float:left" class="w3-button w3-dark-grey w3-hover-dark-grey w3-text-black w3-large" onclick="openSidebar()">'+
             '<i class="fa fa-bars fa-3x" aria-hidden="true"></i>'+
         '</div>'+
         '<div class="spazioFissoResponsive" style="height:100%; float:left;"> </div>'+

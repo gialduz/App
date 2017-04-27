@@ -11,8 +11,8 @@
         $daRitornare="<div style='padding-top:25px; padding-bottom:25px;'>";
         while($stmt->fetch()) {
             $daRitornare.=  "<a href='dettaglioLuogo.php?q=".$id."'>"
-                            ."<div class='w3-row'>"
-                                ."<div class='w3-col w3-".$colore." w3-center' style='width:25px; height:25px;'> <h5 class='noPad'>" .$lettera. "</h5></div>"
+                            ."<div class='w3-row w3-hover-light-grey'>"
+                                ."<div class='w3-col w3-".$colore." w3-text-white w3-center' style='width:30px; height:100%;'> <h5 class='noPad'><b>" .$lettera. "</b></h5></div>"
                                 ."<div class='w3-rest w3-container'>"."<h5 class='noPad'>" .$nome. "<small>, " .$tipo_via." " .$via. " ";
             if($numero_civico!=0) {$daRitornare.= $numero_civico;} //Stampa civico se non è 0 (o di default, non assegnato o non VIA)
             $daRitornare.=        "</small> </h5></div>"
@@ -32,15 +32,18 @@
         $stmt->execute();
         $stmt->bind_result($id, $lettera, $colore, $nome, $latitudine, $longitudine);
         
+        //ALTEZZA MASSIMA MAPPA -> sotto soglia altezza=larghezza
+        $maxMapHeight= '"400px"';
+        
         $daRitornare="";
         //INIT MAP()
-        $daRitornare.= '<div id="map" style="height:650px;"></div>
+        $daRitornare.= '<div id="mapContainer" style="max-width:640px; margin: 0 auto;"> <div id="map"></div> </div>
                         <script>
                         var map;
                         function initMap() {
-                            var pos={lat: 45.158428, lng: 10.794230}
+                            var posMap={lat: 45.158428, lng: 10.794230}
                             map = new google.maps.Map(document.getElementById("map"), {
-                                center: pos,
+                                center: posMap,
                                 zoom: 14
                             });';
         while($stmt->fetch()) {
@@ -52,13 +55,18 @@
                                 position: pos,
                                 map: map,
                                 title: "'.$nome.'",
-                                label: "'. $lettera.'",
+                                label: {
+                                    text: "'.$lettera.'",
+                                    color: "white",
+                                    fontWeight: "600"
+                                },
                                 icon: "img/label/'.$colore.'.jpg"
                             });';
             
                             //InfoWindow
             $infoBtn = "<a href='dettaglioLuogo.php?q=".$id."'>"."<i class='fa fa-info-circle fa-2x w3-text-blue w3-hover-text-purple' aria-hidden='true'></i></a>";
             $infoContent = "<h4 class='noPad'>".$infoBtn."&nbsp;&nbsp;&nbsp;".$nome."</h4>";
+            
             $daRitornare .= '(function(marker) {
                                 var infoContent = "'.$infoContent.'";
                                     // add click event
@@ -76,6 +84,17 @@
                                 })
                                 (markers['.$id.']);'; //funzione senza nome, lancia codice sopra - FINE InfoWindow
         }
+        
+        $daRitornare.= '$(window).resize(function() {
+                            altezzaMappa = $("#mapContainer").css("width");
+                            if(altezzaMappa > '.$maxMapHeight.') {altezzaMappa= '.$maxMapHeight.';}
+                            $("#map").css("height", altezzaMappa)
+                            google.maps.event.trigger(map, "resize");
+                            map.setCenter(posMap);
+                        });
+                        var altezzaMappa = $("#mapContainer").css("width");
+                        if(altezzaMappa > '.$maxMapHeight.') {altezzaMappa= '.$maxMapHeight.';}
+                        $("#map").css("height", altezzaMappa)'; //funzioni gestione resize, setto map height come container width
         
         $daRitornare.= '}</script>' . '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBn8vMQeMyI3ORo43l8YIRPO2uBYk5kdJc&callback=initMap"> </script>';
         
@@ -96,7 +115,12 @@
         $daRitornare="";
         //Creo div per mappa
         // INIT map
-        $daRitornare.= '<div class="padded10" ><div id="map" class="w3-row" style="height:500px; display:none"></div></div>
+        $daRitornare.= '<div class="padded10" ><div id="map" class="w3-row" style="display:none"></div></div>
+                        <style>
+                        #map{height:300px}
+                        @media (max-width: 480px) {#map{height:200px;}}
+                        </style>
+                        
                         <script>                        
                         var map;
                         var lastInfowindow = 0;
@@ -104,14 +128,14 @@
                             var pos={lat: 45.158428, lng: 10.794230}
                             map = new google.maps.Map(document.getElementById("map"), {
                                 center: pos,
-                                zoom: 18
+                                zoom: 17
                             });';
         
         $ultimoLuogo="primo giro";
                 // MARKERs
         while($stmt->fetch()) {
             if($ultimoLuogo != $id_luogo){  //verifica per stampare il luogo solo una volta
-                $daRitornare .= 'pos={lat: '.$latitudine .', lng: '.$longitudine.'};'
+                $daRitornare .= 'pos={lat: '.$latitudine .', lng: '.$longitudine.'};    var posMarker= pos;'
                                 .'var marker = new google.maps.Marker({
                                     position: pos,
                                     map: map,
@@ -141,7 +165,7 @@
             }
             $ultimoLuogo= $id_luogo;
         }
-        
+        $daRitornare.='map.setCenter(posMarker);';
                         //FINE INIT map
         $daRitornare.= '}</script>' . '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBn8vMQeMyI3ORo43l8YIRPO2uBYk5kdJc"> </script>';
         

@@ -24,7 +24,7 @@
         
 
       <!-- The Grid -->
-        <div class="w3-row w3-pale-red">
+        <div class="w3-row w3-pale-yellow">
             
             <?php
                 include 'php/mieFunzioni.php';
@@ -39,7 +39,7 @@
                     $stmt->bind_result($id, $nome, $cognome, $alt_name, $titolo, $biografia);        
                     $stmt->fetch();
                     //HEADER
-                    $daRitornare= '<div class="w3-container w3-purple"><h2>'.$nome.' '.$cognome.' <small>'.$alt_name.'</small></h2></div>';
+                    $daRitornare= '<div class="w3-container w3-orange w3-text-white"><h2>'.$nome.' '.$cognome.' <small>'.$alt_name.'</small></h2></div>';
                     
                     $daRitornare.= '
                     <!-- Left Column -->
@@ -87,7 +87,7 @@
                     $stmt->store_result(); //nescessario per num_rows
                     $stmt->bind_result($id, $nome); 
                     if($stmt->num_rows) {
-                        while($stmt->fetch())   { $daRitornare.= '<a href="dettaglioEvento.php?evento='.$id.'"><div class="w3-text-purple"><p>#'.$id.' '.$nome.'</p></div></a>'; }
+                        while($stmt->fetch())   { $daRitornare.= '<a href="dettaglioEvento.php?evento='.$id.'"><div class="w3-text-blue"><p>#'.$id.' '.$nome.'</p></div></a>'; }
                     } else { $daRitornare= "Nessun evento"; }
                     
                     $conn->close();

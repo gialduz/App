@@ -2,7 +2,7 @@
 
     function stampaArtista($id, $nome, $cognome, $alt_name) {
         $daRitornare= "<a href='artista.php?id=".$id."'>"
-            ."<div class='w3-row padded10 w3-hover-orange w3-pale-blue'>"
+            ."<div class='w3-row padded10 w3-hover-grey w3-pale-blue'>"
                 ."<div class='w3-col l12 w3-center'> <b>- </b>".$nome." ".$cognome." <i style='color:grey'>".$alt_name."</i> </div>"
             ."</div>" ."<hr style='padding:0; margin:0;'>"
             ."</a>";
