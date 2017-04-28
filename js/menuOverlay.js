@@ -1,3 +1,26 @@
+    function showResultMenu(str) {
+        if (str.length == 0) {
+            document.getElementById("livesearchMenu").innerHTML = "";
+            document.getElementById("livesearchMenu").style.border = "0px";
+            return;
+        }
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        }
+        else { // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("livesearchMenu").innerHTML = this.responseText;
+                document.getElementById("livesearchMenu").style.border = "1px solid #A5ACB2";
+            }
+        }
+        xmlhttp.open("GET", "php/eventLivesearch.php?q=" + str, true);
+        xmlhttp.send();
+    }
+
 
     function closeSidebarOverlay() {
         if(statoMenu == 1){
@@ -7,6 +30,15 @@
     }
 
 
+    var livesearchMenu = '<div class="w3-row w3-dark-grey padded10">'+
+                            '<div class="w3-third w3-center"><h5>Cerca:</h5></div>'+
+                            '<div class="w3-twothird">'+
+                                '<form>'+
+                                    '<input type="text" class="w3-input" size="30" onkeyup="showResultMenu(this.value)">'+
+                                    '<div id="livesearchMenu"></div>'+
+                                '</form>'+
+                            '</div>'+
+                        '</div>';
 
 // H: 80+ 480 +80 = 640 min centrato
     var menuOverlay= "<div id='overlay' >"+
@@ -21,6 +53,8 @@
                                     '</a>'+
                                 '</div>'+
                             '</div>'+
+        
+                            livesearchMenu+
         
                             // contenuto menu
                             '<div class="w3-row padded10">'+

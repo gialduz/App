@@ -140,7 +140,11 @@
                                     position: pos,
                                     map: map,
                                     title: "'.$nome.'",
-                                    label: "'.$lettera.'",
+                                    label: {
+                                        text: "'.$lettera.'",
+                                        color: "white",
+                                        fontWeight: "600"
+                                    },
                                     icon: "img/label/'.$colore.'.jpg"
                                 });';
                 //InfoWindow

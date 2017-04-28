@@ -20,8 +20,18 @@
         <div id="spazioBarra"></div>
         
         <div class="w3-container w3-dark-grey w3-center" >
-        <h2><i class="fa fa-home fa-lg"></i> <b>Homepage</b> <span class="w3-text-grey">- Cerca evento?</span></h2>
+        <h2><i class="fa fa-home fa-lg"></i> <b>Homepage</b> </h2>
         </div>
+        
+        <!--<div class="w3-row w3-dark-grey padded10">
+            <div class="w3-third w3-center"><h4>Cerca evento:</h4></div>
+            <div class="w3-twothird">
+                <form>
+                    <input type="text" class="w3-input" size="30" onkeyup="showResult(this.value)">
+                    <div id="livesearchEvento"></div>
+                </form>
+            </div>
+        </div>            LIVESEARCH--> 
         
         <div class="w3-row">
             <a href="programma.php"><div class="categoriaHomeBox w3-col w3-center s6 l12 w3-purple">
@@ -56,5 +66,29 @@
         //NASCONDI TASTO HOME nella hompege
         $("#homeBox").hide();
     </script>
+    <script>
+            function showResult(str) {
+                if (str.length == 0) {
+                    document.getElementById("livesearchEvento").innerHTML = "";
+                    document.getElementById("livesearchEvento").style.border = "0px";
+                    return;
+                }
+                if (window.XMLHttpRequest) {
+                    // code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp = new XMLHttpRequest();
+                }
+                else { // code for IE6, IE5
+                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+                xmlhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("livesearchEvento").innerHTML = this.responseText;
+                        document.getElementById("livesearchEvento").style.border = "1px solid #A5ACB2";
+                    }
+                }
+                xmlhttp.open("GET", "php/eventLivesearch.php?q=" + str, true);
+                xmlhttp.send();
+            }
+        </script>
 </body>
 </html>

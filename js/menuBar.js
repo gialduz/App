@@ -1,5 +1,5 @@
 //<!-- Side navigation -->
-    
+
 
     function openSidebarOverlay() {
         setTimeout(function(){ 
