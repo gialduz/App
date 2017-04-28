@@ -12,10 +12,13 @@
 </head>
 
 <body style="max-width:640px; margin:0 auto;">
-
+    
+    <script src="js/menuOverlay.js"></script>
+    <script src="js/menuBar.js"></script>
+    
     <div id="corpo">
-        <script src="js/menuOverlay.js"></script>
-        <script src="js/menuBar.js"></script>
+        <div id="spazioBarra"></div>
+        
         
         <div class="w3-container w3-orange w3-text-white w3-center">
             <h2>Artisti</h2></div>

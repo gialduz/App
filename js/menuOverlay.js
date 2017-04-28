@@ -10,7 +10,7 @@
 
 // H: 80+ 480 +80 = 640 min centrato
     var menuOverlay= "<div id='overlay' >"+
-                        "<div id='menuContent' style='width:300px; height:80vh; background:#0d0d0d; margin:0 auto; margin-top:10vh;'>"+
+                        "<div id='menuContent' style=''>"+
         
                             //header menu
                             '<div class="w3-row w3-dark-grey">'+
@@ -63,7 +63,7 @@
 
 
 
-    $("#corpo").append(menuOverlay);
+    $("body").append(menuOverlay);
     $("#overlay").hide(); //stampo e nascondo
     var statoMenu=0; //stato 0 = nascosto
 

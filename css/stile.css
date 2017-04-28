@@ -1,5 +1,7 @@
 body{font-size:14px;}
 #corpo{background-color: white;}
+div#spazioBarra{min-height: 75px;}
+
 .unquinto {
     width: 20%;
     float: left;
@@ -114,6 +116,9 @@ a:active {
 
 /*FILTRI*/
 #overlay {background-color: rgba(0,0,0,0.6); position: fixed; left:0; top: 0; width:100%; height:100%; z-index: 100;}
+#menuContent{width:320px; height:80vh; min-height:320px; background:#333333; margin:0 auto; margin-top:10vh;}
+@media (max-height: 480px) {#menuContent{margin-top: 10px;}}
+@media (max-height: 360px) {#menuContent{margin: 0 auto;}}
 
 .blur-filter {
     -webkit-filter: blur(2px);

@@ -20,7 +20,8 @@
     '<style> @media (max-width: 640px) { .spazioFissoResponsive, #homeBox{width:75px;} </style>'+
     '<style> @media (max-width: 480px) { .spazioFissoResponsive{width:0px;} </style>'+
     '<style> @media (max-width: 320px) { .spazioFissoResponsive{width:0px;} #menuBox, #logoBox{width:75px} </style>'+
-    '<div id="menuBar" class="w3-dark-grey w3-row" style="height:75px;">'+
+    //MenuBar    
+    '<div id="menuBar" class="w3-dark-grey w3-row" style="height:75px; position:fixed; width:100%; max-width:640px; z-index:99">'+
         '<div id="menuBox" style="height:100%; float:left" class="w3-button w3-dark-grey w3-hover-dark-grey w3-text-white w3-large" onclick="openSidebarOverlay()">'+
             '<i class="fa fa-bars fa-3x" aria-hidden="true"></i>'+
         '</div>'+

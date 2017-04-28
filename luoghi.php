@@ -15,27 +15,27 @@
 </head>
 
 <body style="max-width:640px; margin:0 auto;">
-    
+    <script src="js/menuOverlay.js"></script>
+    <script src="js/menuBar.js"></script>
     
     <div id="corpo">
-        <script src="js/menuOverlay.js"></script>
-        <script src="js/menuBar.js"></script>
-    
-    <div class="w3-container w3-blue w3-center">
-    <h2>Luoghi</h2>
-    </div>
-    
-    <?php
+        <div id="spazioBarra"></div>
+        
+        <div class="w3-container w3-blue w3-center">
+        <h2>Luoghi</h2>
+        </div>
 
-    include 'php/mieFunzioni.php';
-    require 'php/configurazione.php';// richiamo il file di configurazione
-    require 'php/connessione.php';// richiamo lo script responsabile della connessione a MySQL
+        <?php
 
-    echo stampaMappaLuoghi();
-    echo stampaElencoLuoghi();
+        include 'php/mieFunzioni.php';
+        require 'php/configurazione.php';// richiamo il file di configurazione
+        require 'php/connessione.php';// richiamo lo script responsabile della connessione a MySQL
 
-    $conn->close();
-    ?>
+        echo stampaMappaLuoghi();
+        echo stampaElencoLuoghi();
+
+        $conn->close();
+        ?>
         
     </div>
 </body>
