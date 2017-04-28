@@ -7,7 +7,7 @@ require 'funzioniMappeLuoghi.php';
         require 'configurazione.php';// richiamo il file di configurazione
         require 'connessione.php';// richiamo lo script responsabile della connessione a MySQL
         return   stampaTitolo($numeroEvento, $conn)
-                ."<div class='w3-pale-red w3-container'>".stampaPersona($numeroEvento, $conn)
+                ."<div class='w3-pale-red' style='padding: 15px 20px 15px 20px;'>".stampaPersona($numeroEvento, $conn)
                 .stampaTesto($numeroEvento, $conn)
                 .stampaDove($numeroEvento, $conn)
                 .stampaMappaEvento($numeroEvento)
@@ -124,7 +124,7 @@ require 'funzioniMappeLuoghi.php';
         
         return  "<div class='w3-row'>"
                     ."<div class='w3-col s9 cappato'>"
-                        ."<a href='dettaglioLuogo.php?q=".$id."'><h4><b>" .$nome. "</b><h4><a>"
+                        ."<a href='dettaglioLuogo.php?q=".$id."'><h4><b>" .$nome. "</b><h4></a>"
                     ."</div>"
                     ."<div class='w3-col s3 '>"
                         ."<h5><button class='w3-button w3-block dark-green w3-hover-green w3-round-large mostraMappa'><i class='fa fa-map-marker' aria-hidden='true'></i> Maps</button></h5>"
@@ -159,7 +159,7 @@ require 'funzioniMappeLuoghi.php';
         $stmt->execute();
         $stmt->bind_result($data_ora);
         
-        $daRitornare="";        
+        $daRitornare= "" ."<div class='w3-center w3-row'>";        
         $ultimoGiornoNumero= 0;
         while($stmt->fetch()) {
             if($ultimoGiornoNumero != soloGiorno(soloData($data_ora))){
@@ -179,7 +179,7 @@ require 'funzioniMappeLuoghi.php';
             }
             $ultimoGiornoNumero= soloGiorno(soloData($data_ora));            
         }
-        return $daRitornare;
+        return $daRitornare. "</div><br>";
     }
 
 

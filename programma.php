@@ -16,12 +16,15 @@
 
 <body style="max-width:640px; margin:0 auto;">
     
-    <script src="js/menu.js"></script>
+    
+    <div id="corpo">
+        <script src="js/menuOverlay.js"></script>
+        <script src="js/menuBar.js"></script>
+        
     <div class="w3-container w3-purple w3-text-white w3-center">
     <h2>Programma</h2>
     </div>
     
-    <br>
     
     <div class="w3-row" >
         <div class="w3-center">
@@ -58,12 +61,11 @@
     </div>
     
     <div class="w3-center">
-        <div class='w3-padding' style="cursor: pointer">
-            <span id='vediTuttiEventi' class='w3-green w3-padding' onclick="resetProgramma()">Clicca qui per tornare alla<br>programmazione completa</span>
+        <div class='' style="cursor: pointer">
+            <div id='vediTuttiEventi' class='w3-green w3-padding' onclick="resetProgramma()">Clicca qui per tornare al PROGRAMMA COMPLETO</div>
         </div>
     </div>
     
-    <br>
     
     <?php
     echo stampaListaIstanzeEvento();
@@ -98,6 +100,9 @@
             $("#"+data).addClass("w3-orange w3-hover-orange");
         }
     </script>
+        
+        
+    </div>
 </body>
 
 </html>

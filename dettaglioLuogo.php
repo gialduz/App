@@ -16,7 +16,10 @@
 
 <body style="max-width:640px; margin:0 auto;">
 
-    <script src="js/menu.js"></script>
+    
+    <div id="corpo">
+        <script src="js/menuOverlay.js"></script>
+        <script src="js/menuBar.js"></script>
 
       <!-- The Grid -->
         <div class="w3-row w3-pale-blue">
@@ -34,7 +37,7 @@
                     $stmt->bind_result($id, $nome, $latitudine, $longitudine);        
                     $stmt->fetch();
                     //HEADER
-                    $daRitornare= '<div class="w3-container w3-blue"><h2>&nbsp;'.$nome.'</h2></div>';
+                    $daRitornare= '<div class="w3-container w3-blue"><h2>'.$nome.'</h2></div>';
                     
                     $daRitornare.= '
                     <!-- Left Column -->
@@ -43,7 +46,7 @@
 
                             <div class="w3-text-grey">
                                 <div class="w3-display-container">
-                                    <img src="img/bibiena.jpg" style="width:100%" alt="QuiVaAvatar">
+                                    <img src="img/apple-place.png" style="width:100%" alt="QuiVaAvatar">
                                 </div>
                                 <div class="padded10 w3-white w3-center">
                                     <a href="http://maps.apple.com/?q='.$nome.'&daddr='.$latitudine.', '.$longitudine.'&dirflg=w" target="_blank">
@@ -101,7 +104,7 @@
       </div>
     
     
-    
+    </div>
 </body>
 
 </html>

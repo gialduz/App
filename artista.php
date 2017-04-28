@@ -16,7 +16,10 @@
 
 <body style="max-width:640px; margin:0 auto;">
 
-    <script src="js/menu.js"></script>
+    
+    <div id="corpo">
+        <script src="js/menuOverlay.js"></script>
+        <script src="js/menuBar.js"></script>
     
     
     
@@ -103,7 +106,7 @@
       </div>
         
         
-    
+    </div>
     
 </body>
 

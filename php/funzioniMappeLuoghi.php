@@ -65,7 +65,7 @@
             
                             //InfoWindow
             $infoBtn = "<a href='dettaglioLuogo.php?q=".$id."'>"."<i class='fa fa-info-circle fa-2x w3-text-blue w3-hover-text-purple' aria-hidden='true'></i></a>";
-            $infoContent = "<h4 class='noPad'>".$infoBtn."&nbsp;&nbsp;&nbsp;".$nome."</h4>";
+            $infoContent = "<h4 class='noPad'>".$infoBtn.$nome."</h4>";
             
             $daRitornare .= '(function(marker) {
                                 var infoContent = "'.$infoContent.'";
@@ -145,7 +145,7 @@
                                 });';
                 //InfoWindow
                 $infoBtn = "<a href='dettaglioLuogo.php?q=".$id_luogo."'>"."<i class='fa fa-info-circle fa-2x w3-text-blue w3-hover-text-purple' aria-hidden='true'></i></a>";
-                $infoContent = "<h4 class='noPad'>".$infoBtn."&nbsp;&nbsp;&nbsp;".$nome."</h4>";
+                $infoContent = "<h4 class='noPad'>".$infoBtn.$nome."</h4>";
                 $daRitornare .= '(function (marker) {
                                     var infoContent = "'.$infoContent.'";
                                         // add click event

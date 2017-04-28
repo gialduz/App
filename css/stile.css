@@ -1,5 +1,5 @@
 body{font-size:14px;}
-
+#corpo{background-color: white;}
 .unquinto {
     width: 20%;
     float: left;
@@ -112,3 +112,28 @@ a:active {
 .dark-blue{background-color: #001433; color: white;}
 
 
+/*FILTRI*/
+#overlay {background-color: rgba(0,0,0,0.6); position: fixed; left:0; top: 0; width:100%; height:100%; z-index: 100;}
+
+.blur-filter {
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+    filter: blur(2px);
+}
+
+.brightness-filter {
+    -webkit-filter: brightness(25%);
+    -moz-filter: brightness(25%);
+    -o-filter: brightness(25%);
+    -ms-filter: brightness(25%);
+    filter: brightness(25%);
+}
+
+.filter-animation{
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
