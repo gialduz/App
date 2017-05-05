@@ -30,11 +30,11 @@
                 function stampaDettaglioLuogo($id_luogo) {
                     include 'php/configurazione.php';
                     include 'php/connessione.php';
-                    $sql=   "SELECT L.id, L.nome, L.latitudine, L.longitudine FROM Luogo AS L WHERE L.id= ?";
+                    $sql=   "SELECT L.id, L.nome, L.latitudine, L.longitudine, L.descrizione, L.foto FROM Luogo AS L WHERE L.id= ?";
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param("i", $id_luogo);
                     $stmt->execute();
-                    $stmt->bind_result($id, $nome, $latitudine, $longitudine);        
+                    $stmt->bind_result($id, $nome, $latitudine, $longitudine, $descrizione, $foto);        
                     $stmt->fetch();
                     //HEADER
                     $daRitornare= '<div class="w3-container w3-blue"><h2>'.$nome.'</h2></div>';
@@ -46,12 +46,12 @@
 
                             <div class="w3-text-grey">
                                 <div class="w3-display-container">
-                                    <img src="img/apple-place.png" style="width:100%" alt="QuiVaAvatar">
+                                    <img src="'.$foto.'" style="width:100%" alt="Nessuna immagine del luogo">
                                 </div>
                                 <div class="padded10 w3-white w3-center">
                                     <a href="http://maps.apple.com/?q='.$nome.'&daddr='.$latitudine.', '.$longitudine.'&dirflg=w" target="_blank">
                                         <button class="w3-button w3-green w3-hover-orange w3-round-xxlarge">
-                                            <i class="fa fa-road" aria-hidden="true"></i> Portami qui! <i class="fa fa-location-arrow" aria-hidden="true"></i>
+                                            Portami qui! <i class="fa fa-location-arrow" aria-hidden="true"></i>
                                         </button>
                                     </a>
                                     <hr>
@@ -66,8 +66,8 @@
                         <div class="w3-twothird w3-container">
 
                             <div class="">
-                                <h2 class="w3-text-grey noPad"> Descrizione luogo:</h2>
-                                <p> Descrizione del luogo che bla skso sjweiee dd djis sksdjdnd ss ad e fscxsx ttfd. </p>
+                                <h4 class="w3-text-grey noPad"> Descrizione luogo:</h4>
+                                <p>'.$descrizione.'</p>
                             </div>
 
                         <!-- End Right Column -->

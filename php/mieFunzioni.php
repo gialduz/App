@@ -154,7 +154,7 @@ require 'funzioniMappeLuoghi.php';
     function stampaBadgeQuando($numeroEvento) {
         require 'php/configurazione.php';
         require 'php/connessione.php';
-        $stmt = $conn->prepare("SELECT eld.data_ora FROM eventoLuogoData AS eld WHERE eld.id_evento = ?");
+        $stmt = $conn->prepare("SELECT eld.data_ora FROM eventoLuogoData AS eld WHERE eld.id_evento = ? ORDER BY eld.data_ora");
         $stmt->bind_param("i", $numeroEvento);
         $stmt->execute();
         $stmt->bind_result($data_ora);
@@ -194,7 +194,7 @@ require 'funzioniMappeLuoghi.php';
         $stmt->execute();
         $stmt->bind_result($eta_min, $eta_max, $ticket, $durata, $tipo_evento, $lettera, $colore);
         $stmt->fetch();
-         if($ticket){$ticketSN= '€';} else{$ticketSN= 'Free';}
+        if($ticket){$ticketSN= '€';} else{$ticketSN= 'Free';}
          
         
         return  "<div class='w3-center w3-row'>"
@@ -292,6 +292,22 @@ require 'funzioniMappeLuoghi.php';
             $ultimaData = dataIta($data_ora);
         }
         
+        
+        //rende badge alti uguali, una volta stampati     +onResize()
+        $daRitornare .= "<script>
+                            $('.itemBadge').each(function(){
+                                $(this).height($(this).width());
+                            });
+                            $( window ).resize(function() {
+                                $('.itemBadge').each(function(){
+                                    $(this).height($(this).width());
+                                    
+                                });
+                            });
+                            
+
+                        </script>";
+        
         return $daRitornare;
     }
 
@@ -326,8 +342,44 @@ require 'funzioniMappeLuoghi.php';
                             .stampaItemBadge($id)
                         ."</div>"
                     ."</div></a>";
+        
+        
         $stmt->close();
         return $daRitornare;
+    }
+
+    function stampaItemBadge($numeroEvento) {
+        
+        include 'configurazione.php';
+        include 'connessione.php';
+        $sql = "SELECT E.durata, E.ticket, E.speciale_ragazzi, te.nome AS tipo_evento FROM (Evento AS E INNER JOIN tipologiaEvento AS te ON E.tipologia = te.id) WHERE E.id = ?";
+        
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $numeroEvento);
+        $stmt->execute();
+        $stmt->bind_result($durata, $ticket, $speciale_ragazzi, $tipo_evento);
+        $stmt->fetch();
+        
+        if($ticket){$ticketSN= '€';} else{$ticketSN= 'Free';}
+        $str =  "";
+        $str .= "<div class='w3-col s3 uppato itemBadge'>"
+                    ."<img class='w3-image' src='img/tipologiaEvento/".$tipo_evento.".png' >"
+                ."</div>"
+                ."<div class='w3-col s3 w3-green itemBadge'><p>"
+                    .$durata. "'</p>"
+                ."</div>"
+                ."<div class='w3-col s3 w3-yellow itemBadge'><p>"
+                    .$ticketSN
+                ."</p></div>";
+        $str .= specialeRagazziItemBadge($numeroEvento);
+        $str .= specialeItemBadge($numeroEvento);
+        
+        
+        
+        return $str;
+        
+        // IMPORTANTE ! nel PDF c'è riferimento a pagina -> badge collegamento o clic su istanza o niente? (clic per dettaglio evento)
+        
     }
 
 //stampa singolo componente di un ITEM
@@ -344,7 +396,7 @@ require 'funzioniMappeLuoghi.php';
         
         
         if($speciale_ragazzi){return "<div class='w3-col s3'>"
-                                    ."<div class='w3-purple inclinata' style='width:80%; float:right;'> <b>T</b> </div> "
+                                    ."<div class='w3-purple inclinata itemBadge' style='width:80%; float:right;'> <b>T</b> </div> "
                                 ."</div>";}
         return "";
     }
@@ -359,42 +411,13 @@ require 'funzioniMappeLuoghi.php';
         $stmt->bind_result($speciale);
         $stmt->fetch();
         if($speciale){return "<div class='w3-col s3'>"
-                                    ."<div class='w3-red inclinata' style='width:80%; float:right;'> <b>S</b> </div> "
+                                    ."<div class='w3-red inclinata itemBadge' style='width:80%; float:right;'> <b>S</b> </div> "
                                 ."</div>";}
         return "";
     }
 
 
-    function stampaItemBadge($numeroEvento) {
-        
-        include 'configurazione.php';
-        include 'connessione.php';
-        $sql = "SELECT E.durata, E.ticket, E.speciale_ragazzi, te.nome AS tipo_evento FROM (Evento AS E INNER JOIN tipologiaEvento AS te ON E.tipologia = te.id) WHERE E.id = ?";
-        
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $numeroEvento);
-        $stmt->execute();
-        $stmt->bind_result($durata, $ticket, $speciale_ragazzi, $tipo_evento);
-        $stmt->fetch();
-        
-        $str =  "";
-        $str .= "<div class='w3-col s3 w3-orange uppato'>"
-                    .substr( $tipo_evento, 0, 3 )
-                ."</div>"
-                ."<div class='w3-col s3 w3-green'>"
-                    .$durata. "'"
-                ."</div>"
-                ."<div class='w3-col s3 w3-blue'>"
-                    ."€".$ticket
-                ."</div>";
-        $str .= specialeRagazziItemBadge($numeroEvento);
-        $str .= specialeItemBadge($numeroEvento);
-        
-        return $str;
-        
-        // IMPORTANTE ! nel PDF c'è riferimento a pagina -> badge collegamento o clic su istanza o niente? (clic per dettaglio evento)
-        
-    }
+    
 
 
 

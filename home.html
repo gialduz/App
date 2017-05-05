@@ -5,11 +5,12 @@
     <link rel="stylesheet" href="css/stile.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
     <script src="js/jquery.js"></script>
+    
     <style>
-        .icona{width:50px; height: 50px;}  
-        .categoriaHomeBox {height: 150px;}
+        .icona{width:75px; height: 75px;}  
+        .categoriaHomeBox {height: 150px; padding-top: 25px;}
         
-        @media (max-width: 360px) {.categoriaHomeBox{height:125px;} .categoriaHomeBox > h3, i{font-size:16px;} }
+        @media (max-width: 360px) {.categoriaHomeBox{height:125px; padding-top: 10px;} .categoriaHomeBox > h3, i{font-size:16px;} }
     </style>
 <body style="max-width:640px; margin:0 auto;">
     
@@ -35,20 +36,20 @@
         
         <div class="w3-row">
             <a href="programma.php"><div class="categoriaHomeBox w3-col w3-center s6 l12 w3-purple">
-                <h3>PROGRAMMA</h3>
-                <i class="fa fa-table fa-3x"></i>
+                <i class="fa fa-calendar fa-5x"></i>
+                <h5>Programma</h5>
             </div></a>
              <a href="artisti.php"><div class="categoriaHomeBox w3-col w3-center s6 l12  w3-orange w3-text-white">
-                <h3>ARTISTI</h3>
-                <div class="w3-center"><img class="icona" src="img/icon/artista.png" class="w3-image"></div>
+                <div class="w3-center"><img class="icona" src="img/icon/artista.png"></div>
+                 <h5>Artisti</h5>
             </div></a>
             <a href="luoghi.php"><div class="categoriaHomeBox w3-col w3-center s6 w3-blue">
-                <h3>LUOGHI</h3>
-                <div class="w3-center"><img class="icona" src="img/icon/mantova-skyline-sl.png" class="w3-image"></div>
+                <div class="w3-center"><img class="icona" src="img/icon/mantova-skyline2.png"></div>
+                <h5>Luoghi</h5>
             </div></a>
             <a href="mockupInfo.html#-infoBiglietti"><div class="categoriaHomeBox w3-col w3-center s6 w3-green">
-                <h3>INFO</h3>
-                <i class="fa fa-info-circle fa-3x"></i>
+                <i class="fa fa-info fa-5x"></i>
+                <h5>Informazioni</h5>
             </div></a>
             <!--
             <div class="w3-col w3-center m4 w3-orange" style="height:150px">
@@ -67,7 +68,7 @@
         $("#homeBox").hide();
     </script>
     <script>
-            function showResult(str) {
+        function showResult(str) {
                 if (str.length == 0) {
                     document.getElementById("livesearchEvento").innerHTML = "";
                     document.getElementById("livesearchEvento").style.border = "0px";
@@ -89,6 +90,6 @@
                 xmlhttp.open("GET", "php/eventLivesearch.php?q=" + str, true);
                 xmlhttp.send();
             }
-        </script>
+    </script>
 </body>
 </html>

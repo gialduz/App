@@ -35,11 +35,11 @@
                 function stampaDettaglioArtista($id_artista) {
                     include 'php/configurazione.php';
                     include 'php/connessione.php';
-                    $sql=   "SELECT P.id, P.nome, P.cognome, P.alt_name, P.titolo, P.biografia FROM Persona AS P WHERE P.id= ?";
+                    $sql=   "SELECT P.id, P.nome, P.cognome, P.alt_name, P.titolo, P.biografia, P.foto FROM Persona AS P WHERE P.id= ?";
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param("i", $id_artista);
                     $stmt->execute();
-                    $stmt->bind_result($id, $nome, $cognome, $alt_name, $titolo, $biografia);        
+                    $stmt->bind_result($id, $nome, $cognome, $alt_name, $titolo, $biografia, $foto);        
                     $stmt->fetch();
                     //HEADER
                     $daRitornare= '<div class="w3-container w3-orange w3-text-white"><h2>'.$nome.' '.$cognome.' <small>'.$alt_name.'</small></h2></div>';
@@ -51,7 +51,7 @@
 
                             <div class="w3-text-grey w3-center">
                                 <div class="w3-display-container">
-                                    <img src="img/img_avatar3.png" style="width:100%" alt="QuiVaAvatar">
+                                    <img src="img/'.$foto.'" style="width:100%" alt="Foto non presente">
                                 </div>
                                 <div class="padded10">
                                     <h5>Eventi correlati:</h5>'

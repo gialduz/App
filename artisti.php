@@ -29,63 +29,70 @@
                     <div id="livesearch"></div>
                 </form>
             </div>
-        </div>
-        <?php
-    include 'php/mieFunzioni.php';
-    
-    function stampaElencoArtisti() {
-        include 'php/configurazione.php';
-        include 'php/connessione.php';
-        $sql=   "SELECT P.id, P.nome, P.cognome, P.alt_name FROM Persona AS P WHERE P.tipologia= 1 ORDER BY P.cognome";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $stmt->bind_result($id, $nome, $cognome, $alt_name);
-        $daRitornare= "";
+        </div>        
         
-        while($stmt->fetch()){
-            $daRitornare .= stampaArtista($id, $nome, $cognome, $alt_name);
-        }
-        
-        
-        
-        $conn->close();
-        return $daRitornare;
-    }
-    function stampaArtista($id, $nome, $cognome, $alt_name) {
-        $daRitornare= "<a href='artista.php?id=".$id."'>"
-            ."<div class='w3-row padded10 w3-hover-grey'>"
-                ."<div class='w3-col l12 w3-center'> ".$nome." ".$cognome." <i style='color:grey'>".$alt_name."</i> </div>"
-            ."</div>" ."<hr style='padding:0; margin:0;'>"
-            ."</a>";
-        return $daRitornare;
-    }
+        <div class="w3-container w3-pale-yellow"><h5>Elenco artisti completo:</h5>
+            <?php
+            include 'php/mieFunzioni.php';
 
-    echo stampaElencoArtisti();
-    ?>
-        <script>
-            function showResult(str) {
-                if (str.length == 0) {
-                    document.getElementById("livesearch").innerHTML = "";
-                    document.getElementById("livesearch").style.border = "0px";
-                    return;
+            function stampaElencoArtisti() {
+                include 'php/configurazione.php';
+                include 'php/connessione.php';
+                $sql=   "SELECT P.id, P.nome, P.cognome, P.alt_name, P.foto_mini FROM Persona AS P WHERE P.tipologia= 1 ORDER BY P.cognome";
+                $stmt = $conn->prepare($sql);
+                $stmt->execute();
+                $stmt->bind_result($id, $nome, $cognome, $alt_name, $foto_mini);
+                $daRitornare= "";
+
+                while($stmt->fetch()){
+                    $daRitornare .= stampaArtista($id, $nome, $cognome, $alt_name, $foto_mini);
                 }
-                if (window.XMLHttpRequest) {
-                    // code for IE7+, Firefox, Chrome, Opera, Safari
-                    xmlhttp = new XMLHttpRequest();
-                }
-                else { // code for IE6, IE5
-                    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-                }
-                xmlhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById("livesearch").innerHTML = this.responseText;
-                        document.getElementById("livesearch").style.border = "1px solid #A5ACB2";
-                    }
-                }
-                xmlhttp.open("GET", "php/livesearch.php?q=" + str, true);
-                xmlhttp.send();
+                
+                $conn->close();
+                return $daRitornare;
             }
-        </script>
+            function stampaArtista($id, $nome, $cognome, $alt_name, $foto) {
+                $daRitornare= "<a href='artista.php?id=".$id."'>"
+                    ."<div class='w3-row w3-hover-grey'>"
+                        ."<div class='w3-col s2 w3-center'>"
+                                .'<div class="imgQuadrataArtista w3-circle" style="background-image: url('.$foto.');"></div>'
+                        ."</div>"
+                        ."<div class='w3-col s10'>"
+                                .$nome." ".$cognome." <i style='color:grey'>".$alt_name."</i>"
+                        ."</div>"
+                    ."</div>"
+                    ."</a>";
+                return $daRitornare;
+            }
+
+            echo stampaElencoArtisti();
+            ?>
+
+            <script>
+                function showResult(str) {
+                    if (str.length == 0) {
+                        document.getElementById("livesearch").innerHTML = "";
+                        document.getElementById("livesearch").style.border = "0px";
+                        return;
+                    }
+                    if (window.XMLHttpRequest) {
+                        // code for IE7+, Firefox, Chrome, Opera, Safari
+                        xmlhttp = new XMLHttpRequest();
+                    }
+                    else { // code for IE6, IE5
+                        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+                    }
+                    xmlhttp.onreadystatechange = function () {
+                        if (this.readyState == 4 && this.status == 200) {
+                            document.getElementById("livesearch").innerHTML = this.responseText;
+                            document.getElementById("livesearch").style.border = "1px solid #A5ACB2";
+                        }
+                    }
+                    xmlhttp.open("GET", "php/livesearch.php?q=" + str, true);
+                    xmlhttp.send();
+                }
+            </script>
+        </div>
     </div>
 </body>
 
