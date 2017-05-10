@@ -24,7 +24,7 @@
         
         
     <div class="w3-container w3-purple w3-text-white w3-center">
-    <h2>Programma</h2>
+    <h2>Programma 2017</h2>
     </div>
     
     
@@ -37,7 +37,7 @@
             require 'php/configurazione.php';// richiamo il file di configurazione
             require 'php/connessione.php';// richiamo lo script responsabile della connessione a MySQL
 
-            $stmt = $conn->prepare("SELECT data_ora FROM eventoLuogoData WHERE data_ora LIKE '2016%' ORDER BY data_ora");
+            $stmt = $conn->prepare("SELECT data_ora FROM eventoLuogoData WHERE 1 ORDER BY data_ora");
             $stmt->execute();
             $stmt->bind_result($data_ora);
             
@@ -101,6 +101,12 @@
             $(".dataBtn").removeClass("w3-orange w3-hover-orange");
             $("#"+data).addClass("w3-orange w3-hover-orange");
         }
+        
+        //bilancia fascia inclinata
+        $(".inclinata").height( ($(".inclinata").first().width()) /4*5 );
+        $( window ).resize(function() {
+          $(".inclinata").height( ($(".inclinata").first().width()) /4*5 );
+        });
     </script>
         
         

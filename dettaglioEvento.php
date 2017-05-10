@@ -35,12 +35,46 @@
     echo stampaEvento($numeroEvento);
     $conn->close();
     ?>
-            <br>
-            <br>
-            <br> Stampo anche SPONSOR -> prima stampaPersona() e stampaAltro()
-            <br> Istanza evento speciale -> stella e rosso
             <script>
                 $(".badge").addClass("w3-card-2");
+                
+                
+                var idEvento= window.location.href.split('evento=')[1];
+                
+                
+                
+                
+                function salvaPreferito() {
+                   
+                    //localStorage.removeItem("preferito");
+
+                    if(localStorage.getItem("preferito") == null) {
+                        var mypref= [];
+                        mypref[0] = "0";
+                        mypref[idEvento] = "1";
+                        $("#btnPreferito").addClass("w3-red");
+                        localStorage["preferito"] = JSON.stringify(mypref);
+                        //alert("Nessun preferito, array creato!");
+                        
+                    } //crea storage se null
+                    else{
+                        var mypref = JSON.parse(localStorage.getItem("preferito"));
+                        if(mypref[idEvento] != "1") {
+                            mypref[idEvento] = "1";
+                            $("#btnPreferito").addClass("w3-red");
+                        }
+                        else {mypref[idEvento] = "0";
+                             $("#btnPreferito").removeClass("w3-red");}
+                        
+                        localStorage["preferito"] = JSON.stringify(mypref);
+                    }
+                    alert(JSON.parse(localStorage.getItem("preferito"))); //flag
+                }
+                
+                if(JSON.parse(localStorage.getItem("preferito"))[idEvento] == "1") $("#btnPreferito").addClass("w3-red");
+                
+                
+                
             </script>
     </div>
 </body>

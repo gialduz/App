@@ -51,7 +51,7 @@
 
                             <div class="w3-text-grey w3-center">
                                 <div class="w3-display-container">
-                                    <img src="img/'.$foto.'" style="width:100%" alt="Foto non presente">
+                                    <img src="img/'.$foto.'" style="width:100%">
                                 </div>
                                 <div class="padded10">
                                     <h5>Eventi correlati:</h5>'

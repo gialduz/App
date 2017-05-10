@@ -15,6 +15,14 @@ div#spazioBarra{min-height: 75px;}
     background-size: cover;
 }
 
+.imgEvento {
+    display: inline-block;
+    width: 1200px;
+    height: 200px;
+    background-position: center center;
+    background-size: cover;
+}
+
 @media (max-width: 480px) {.imgQuadrataArtista{width: 30px; height: 30px;}}
 
 
