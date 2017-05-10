@@ -44,10 +44,15 @@
                             $('.itemBadge').each(function(){
                                 $(this).height($(this).width());
                             });
+                            $('.inclinata').each(function(){
+                                $(this).height($(this).width()/4*5);
+                            });
                             $( window ).resize(function() {
                                 $('.itemBadge').each(function(){
                                     $(this).height($(this).width());
-
+                                });
+                                $('.inclinata').each(function(){
+                                    $(this).height($(this).width()/4*5);
                                 });
                             });
 

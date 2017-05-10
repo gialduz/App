@@ -64,6 +64,9 @@
         </div>
         <div id="wrapIstanze" class="w3-row"> </div>
         
+        <div id="caricamento" class="w3-row w3-center"><i class="fa fa-spinner fa-spin w3-xxlarge" aria-hidden="true"></i></div>
+        <script>$("#caricamento").hide();</script>
+        
         
         
         
@@ -75,7 +78,9 @@
                 
                 //SINGOLO Giorno
                 $(".dataBtn").click(function(){
+                    $("#caricamento").hide();
                     $('#wrapIstanze').empty();
+                    
                     giorno = $(this).prop("id");
                     $('#wrapIstanze').append("<h2 class='w3-orange'>"+giorno+"</h2>");
                     $('#wrapIstanze').append($('<div>').load('programmaGiorno.php?giorno=' + giorno));
@@ -91,6 +96,9 @@
                         $('#wrapIstanze').append("<h2 class='w3-orange'>"+listaDate[j]+"</h2>");
                         $('#wrapIstanze').append($('<div class="paginaIstanzeGiorno">').load('programmaGiorno.php?giorno='+listaDate[j]));
                         j++;
+                   }
+                    if(j==listaDate.length){
+                        $("#caricamento").delay(3000).hide(0);
                    }
                 }
                 
@@ -115,10 +123,8 @@
                 //aggiungo man mano che arrivo in fondo alla pag
                 $(window).scroll(function() {
                    if($(window).scrollTop() + $(window).height() >= $(document).height() -10 && modalitaTutto) {
-                       
+                       if(j<listaDate.length){ $("#caricamento").show(); } //senza if continua a stampare e nascondere in fondo alla pag.
                        stampaProssimoGiorno();
-                       
-                       
                    }
                 });
                 
