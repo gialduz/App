@@ -23,94 +23,114 @@
         
         
         
-    <div class="w3-container w3-purple w3-text-white w3-center">
-    <h2>Programma 2017</h2>
-    </div>
-    
-    
-    <div class="w3-row" >
-        <div class="w3-center">
-            <!--<button class="w3-button" onclick="">&#10094;</button>-->
-            
-            <?php
-            include 'php/mieFunzioni.php';
-            require 'php/configurazione.php';// richiamo il file di configurazione
-            require 'php/connessione.php';// richiamo lo script responsabile della connessione a MySQL
-
-            $stmt = $conn->prepare("SELECT data_ora FROM eventoLuogoData WHERE 1 ORDER BY data_ora");
-            $stmt->execute();
-            $stmt->bind_result($data_ora);
-            
-            $ultimaData = 'pippo';
-            $stampaMese= "primoMese"; //contatore usato in funzioniOraData.php -> dataFiltroBtn()
-            while($stmt->fetch()){
-                $data = soloData($data_ora);
-                if($data != $ultimaData) // elimina duplicati data
-                {
-                    $dataStr= '"'.$data.'"';
-                    $daRitornare.= "<button id=".$dataStr." class='w3-button dataBtn' onclick='filtraGiorno(".$dataStr.")'>" . dataFiltroBtn($data) . "</button>";
-                    $ultimaData = $data;
-                }
-            }
-            
-            echo $daRitornare;
-            $stmt->close();
-            ?>
-            
-            <!--<button class="w3-button" onclick="">&#10095;</button>-->
-
-        </div>        
-    </div>
-    
-    <div class="w3-center">
-        <div class='' style="cursor: pointer">
-            <div id='vediTuttiEventi' class='w3-green w3-padding' onclick="resetProgramma()">Clicca qui per tornare al PROGRAMMA COMPLETO</div>
+        <div class="w3-container w3-purple w3-text-white w3-center">
+        <h2>Programma 2017</h2>
         </div>
-    </div>
-    
-    
-    <?php
-    echo stampaListaIstanzeEvento();
-    $conn->close();
-    ?>
-    
-    <script>
-        function resetProgramma() {
-            //Visualizza programma giorno selezionato
-            $(".giornoTutti").show();
-            $(".dataBtn").show();
-            $(".dataBtn").removeClass("w3-orange w3-hover-orange");
-            $("#vediTuttiEventi").hide();
-            
+        
+        
+        <script> var listaDate =[]; var iData=0; </script>
+        
+        <?php
+        include 'php/mieFunzioni.php';
+        require 'php/configurazione.php';// richiamo il file di configurazione
+        require 'php/connessione.php';// richiamo lo script responsabile della connessione a MySQL
+
+        $stmt = $conn->prepare("SELECT data_ora FROM eventoLuogoData WHERE 1 ORDER BY data_ora");
+        $stmt->execute();
+        $stmt->bind_result($data_ora);
+
+        $ultimaData = 'pippo';
+        $stampaMese= "primoMese"; //contatore usato in funzioniOraData.php -> dataFiltroBtn()
+        while($stmt->fetch()){
+            $data = soloData($data_ora);
+            if($data != $ultimaData) // elimina duplicati data
+            {
+                $dataStr= '"'.$data.'"';
+                $daRitornare.= "<button id=".$dataStr." class='w3-button dataBtn'>" . dataFiltroBtn($data) . "</button>";
+                $ultimaData = $data;
+                //salvo listadate in array
+                $daRitornare.= "<script> listaDate[iData]= ".$dataStr."; iData++ </script>";
+            }
         }
-        resetProgramma();
-        function filtraGiorno(data) {
-            //Visualizza programma giorno selezionato
-            $(".giornoTutti").hide();
-            $(".giorno"+data).show();
-            //aggiunge pulsante resetProgramma
-            $("#vediTuttiEventi").show();
-            //nasconde tutti bottoni tranne 2 vicini (NB: in teoria jquery verifica esistenza)
-            $(".dataBtn").hide();
-            $(".dataBtn#"+data).show();
-            $(".dataBtn#"+data).next().show();
-            $(".dataBtn#"+data).next().next().show();
-            $(".dataBtn#"+data).prev().show();
-            $(".dataBtn#"+data).prev().prev().show();
-            //seleziona di arancio giorno scelto
-            $(".dataBtn").removeClass("w3-orange w3-hover-orange");
-            $("#"+data).addClass("w3-orange w3-hover-orange");
-        }
+
+        echo $daRitornare;
+        $stmt->close();
+        ?>
+
         
-        //bilancia fascia inclinata
-        $(".inclinata").height( ($(".inclinata").first().width()) /4*5 );
-        $( window ).resize(function() {
-          $(".inclinata").height( ($(".inclinata").first().width()) /4*5 );
-        });
-    </script>
+        <br><br>
+        <div class="w3-center w3-yellow padded10">
+            Seleziona un giorno per vedere gli eventi in programma, <br> OPPURE <br> <div class="w3-btn showAll"> Clicca qui per il programma completo </div>
+        </div>
+        <div id="wrapIstanze" class="w3-row"> </div>
         
+        
+        
+        
+
+        <script>
+            $(document).ready(function(){
+                var j=0;
+                var modalitaTutto=0;
+                
+                //SINGOLO Giorno
+                $(".dataBtn").click(function(){
+                    $('#wrapIstanze').empty();
+                    giorno = $(this).prop("id");
+                    $('#wrapIstanze').append("<h2 class='w3-orange'>"+giorno+"</h2>");
+                    $('#wrapIstanze').append($('<div>').load('programmaGiorno.php?giorno=' + giorno));
+                    modalitaTutto=0;
+                    j=0; // azzero contatore ogni volta che cambio modalità
+                    $(".showAll").parent().show(); //mostro PROG COMPLETO
+                });
+                //alert(listaDate); sì, salva tutte le date
+                
+                
+                function stampaProssimoGiorno(){
+                    if(j<listaDate.length){
+                        $('#wrapIstanze').append("<h2 class='w3-orange'>"+listaDate[j]+"</h2>");
+                        $('#wrapIstanze').append($('<div class="paginaIstanzeGiorno">').load('programmaGiorno.php?giorno='+listaDate[j]));
+                        j++;
+                   }
+                }
+                
+                function initWrapTutto(){
+                    if($(window).height() >= $("body").height()-10 ) {
+                        stampaProssimoGiorno();
+                        
+                        setTimeout(function(){ initWrapTutto(); }, 100);
+                        //delay premette corretto calcolo distanze/altezze -testato con 50 va, con 100 non disturba
+                    };
+                }
+                
+                
+                //MOSTRA TUTTO
+                $(".showAll").click(function(){
+                    $('#wrapIstanze').empty();
+                    initWrapTutto();
+                    modalitaTutto=1;
+                    $(".showAll").parent().hide(); //nascondo PROG COMPLETO
+                });
+                
+                //aggiungo man mano che arrivo in fondo alla pag
+                $(window).scroll(function() {
+                   if($(window).scrollTop() + $(window).height() >= $(document).height() -10 && modalitaTutto) {
+                       
+                       stampaProssimoGiorno();
+                       
+                       
+                   }
+                });
+                
+                
+                
+                
+            });
+
+        </script>
         
     </div>
+        
 </body>
 
 </html>

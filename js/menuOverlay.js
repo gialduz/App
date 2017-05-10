@@ -61,7 +61,7 @@
                                 //'<div class="w3-col l12 w3-deep-orange padded10"> HOME'+ '</div>'+
         
                                 //programma
-                                '<a href="programma2.php">'+
+                                '<a href="programma.php">'+
                                     '<div class="w3-col l12 w3-purple padded10">'+
                                         '<h6 style="margin:0px;">Programma<h6>'+
                                     '</div>'+
