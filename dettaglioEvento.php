@@ -4,19 +4,11 @@
 <head>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
-    <title>Evento - Segni d'Infanzia</title>
-    <link rel="stylesheet" href="css/w3.css">
-    <link rel="stylesheet" href="css/stile.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="js/jquery.js"></script>
 </head>
 
 <body style="max-width:640px; margin:0 auto;">
-    <script src="js/menuOverlay.js"></script>
-    <script src="js/menuBar.js"></script>
     
     <div id="corpo">
-        <div id="spazioBarra"></div>
         
         <?php
 
@@ -64,11 +56,12 @@
                             $("#btnPreferito").addClass("w3-red");
                         }
                         else {mypref[idEvento] = "0";
-                             $("#btnPreferito").removeClass("w3-red");}
+                            $("#btnPreferito").removeClass("w3-red");
+                        }
                         
                         localStorage["preferito"] = JSON.stringify(mypref);
                     }
-                    alert(JSON.parse(localStorage.getItem("preferito"))); //flag
+                    //alert(JSON.parse(localStorage.getItem("preferito"))); //mostra array
                 }
                 
                 if(JSON.parse(localStorage.getItem("preferito"))[idEvento] == "1") $("#btnPreferito").addClass("w3-red");

@@ -57,34 +57,41 @@
                             livesearchMenu+
         
                             // contenuto menu
-                            '<div class="w3-row padded10">'+
+                            '<div class="w3-row padded10 w3-center">'+
                                 //'<div class="w3-col l12 w3-deep-orange padded10"> HOME'+ '</div>'+
         
                                 //programma
-                                '<a href="programma.php">'+
+                                '<a href="programma.html">'+
                                     '<div class="w3-col l12 w3-purple padded10">'+
-                                        '<h6 style="margin:0px;">Programma<h6>'+
+                                        '<h6 style="margin:0px;">PROGRAMMA 2017<h6>'+
                                     '</div>'+
                                 '</a>'+
                                 
                                 //artisti
-                                '<a href="artisti.php">'+
-                                    '<div class="w3-col l12 w3-orange padded10">'+
+                                '<a href="artisti.html">'+
+                                    '<div class="w3-col l12 s6 w3-orange padded10">'+
                                         '<h6 style="margin:0px;">Artisti<h6>'+
                                     '</div>'+
                                 '</a>'+
         
                                 //luoghi
-                                '<a href="luoghi.php">'+
-                                    '<div class="w3-col l12 w3-blue padded10">'+
+                                '<a href="luoghi.html">'+
+                                    '<div class="w3-col l12 s6 w3-blue padded10">'+
                                         '<h6 style="margin:0px;">Luoghi<h6>'+
                                     '</div>'+
                                 '</a>'+
         
                                 //info
-                                '<a href="mockupInfo.html">'+
-                                    '<div class="w3-col l12 w3-green padded10">'+
+                                '<a href="mockupInfo.html#-infoBiglietti">'+
+                                    '<div class="w3-col l12 s6 w3-green padded10">'+
                                         '<h6 style="margin:0px;">Informazioni<h6>'+
+                                    '</div>'+
+                                '</a>'+
+        
+                                //preferiti
+                                '<a href="programmaPreferiti.php">'+
+                                    '<div class="w3-col l12 s6 w3-yellow padded10">'+
+                                        '<h6 style="margin:0px;">Preferiti<h6>'+
                                     '</div>'+
                                 '</a>'+
         

@@ -5,23 +5,36 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     
+    <title>Programma - Segni d'Infanzia</title>
+    
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/stile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    <script src="js/jquery.js"></script>
+    
 </head>
 
 <body style="max-width:640px; margin:0 auto;">
+    <script src="js/menuOverlay.js"></script>
+    <script src="js/menuBar.js"></script>
     
     <div id="corpo">
+        <div id="spazioBarra"></div>
         
         
         
-        <div class="w3-container w3-purple w3-text-white w3-center">
-        <h2>Programma 2017</h2>
+        <div class="w3-container w3-yellow w3-center">
+        <h2>Eventi Preferiti</h2>
+        </div>
+        
+        <div class="w3-container w3-pale-yellow">
+        <p>Per aggiungere (e rimuovere) un evento ai preferiti basta tener premuto sull'evento nella sezione "programma".</p>
         </div>
         
         
         <script> var listaDate =[]; var iData=0; </script>
         
-        <div id='rigaBtn' class="w3-row w3-center padded10">
-
+        <div id='rigaBtn' class="w3-row">
         
         <?php
         include 'php/mieFunzioni.php';
@@ -31,7 +44,7 @@
         $stmt = $conn->prepare("SELECT data_ora FROM eventoLuogoData WHERE 1 ORDER BY data_ora");
         $stmt->execute();
         $stmt->bind_result($data_ora);
-        $arrayDate = "";
+        $arrayData= "";
 
         $ultimaData = 'pippo';
         $stampaMese= "primoMese"; //contatore usato in funzioniOraData.php -> dataFiltroBtn()
@@ -40,28 +53,26 @@
             if($data != $ultimaData) // elimina duplicati data
             {
                 $dataStr= '"'.$data.'"';
-                $daRitornare.= "<button id=".$dataStr." class='dataBtn w3-round padded10' style='border:none; margin:4px;'>" . dataFiltroBtn($data) . "</button>";
+                $daRitornare.= "<div id=".$dataStr." class='w3-center w3-col s4 dataBtn'><button class='w3-button'>" . dataFiltroBtn($data) . "</button></div>";
                 $ultimaData = $data;
                 //salvo listadate in array
-                $arrayDate.= "<script> listaDate[iData]= ".$dataStr."; iData++ </script>";
+                $arrayData.= "<script> listaDate[iData]= ".$dataStr."; iData++ </script>";
             }
         }
 
-        echo $daRitornare . $arrayDate;
+        echo $daRitornare . $arrayData;
         $stmt->close();
         ?>
-            
-        </div>
 
-        
-        
+        </div>
         
         <div id="wrapIstanze" class="w3-row"> </div>
         
         <div id="caricamento" class="w3-row w3-center"><i class="fa fa-spinner fa-spin w3-xxlarge" aria-hidden="true"></i></div>
         <script>$("#caricamento").hide();</script>
         
-        <div class="w3-center w3-pale-red padded10">
+        <br>
+        <div class="w3-center w3-pale-yellow padded10">
             Seleziona un giorno per vedere gli eventi in programma, <br> OPPURE <br> <div class="w3-btn showAll"> Clicca qui per il programma completo </div>
         </div>
         
@@ -79,7 +90,7 @@
                 myIstanze[0] = 0;
                 //mypref[idEvento] = "1";
                 localStorage["istanzaPreferita"] = JSON.stringify(myIstanze);
-                //alert("Nessuna ist preferito, array creato!");
+                alert("Nessuna ist preferito, array creato!");
 
             }
             
@@ -108,23 +119,26 @@
                 
                 //SINGOLO Giorno
                 $(".dataBtn").click(function(){
-                    $("#"+giorno).removeClass("w3-orange");
+                    $("#"+giorno).children().removeClass("w3-orange");
                     
                     $(".dataBtn").not(this).hide();
-                    $(this).addClass("w3-orange");
-                    $(this).prev("button").show();
-                    $(this).next("button").show();
+                    $(this).children().addClass("w3-orange");
+                    $(this).prev("div").show();
+                    $(this).next("div").show();
+                    
                     $("#caricamento").hide();
                     $('#wrapIstanze').empty();
                     
                     giorno = $(this).prop("id");
-                    $('#wrapIstanze').append($('<div>').load('programmaGiorno.php?giorno=' + giorno));
+                    $('#wrapIstanze').append($('<div>').load('programmaGiornoPreferiti.php?giorno=' + giorno, {
+                       arrayIstanze: istanzePreferiteDaColorare
+                   }));
                     
                     modalitaTutto=0;
                     
                     
                     j=0; // azzero contatore ogni volta che cambio modalità
-                    $(".showAll").parent().show(); //mostro pulsante PROG COMPLETO
+                    $(".showAll").parent().show(); //mostro PROG COMPLETO
                 });
                 //alert(listaDate); sì, salva tutte le date
                 
@@ -132,7 +146,10 @@
                 function stampaProssimoGiorno(){
                     if(j<listaDate.length){
                         //$('#wrapIstanze').append("<h2 class='w3-orange'>"+listaDate[j]+"</h2>");
-                        $('#wrapIstanze').append($('<div class="paginaIstanzeGiorno">').load('programmaGiorno.php?giorno='+listaDate[j]));
+                        $('#wrapIstanze').append($('<div class="paginaIstanzeGiorno">').load('programmaGiornoPreferiti.php?giorno='+listaDate[j], {
+                           arrayIstanze: istanzePreferiteDaColorare
+                        }));
+                        
                         j++;
                    }
                     if(j==listaDate.length){
@@ -161,7 +178,7 @@
                 
                 //MOSTRA TUTTO
                 $(".showAll").click(function(){
-                    $("#"+giorno).removeClass("w3-orange");
+                    $("#"+giorno).children().removeClass("w3-orange");
                     $(".dataBtn").show();
                     $('#wrapIstanze').empty();
                     initWrapTutto();
@@ -185,6 +202,10 @@
                 
                 
                 //if(JSON.parse(localStorage.getItem("istanzaPreferita"))[1] == 1) alert("pippo");
+                
+                ////// SOLO PER TEST CON CLIENTE STAMPO TUTTI PREFERITI E BASTA
+                $('.showAll').trigger('click');
+                $(".dataBtn").hide();
                 
             });
 

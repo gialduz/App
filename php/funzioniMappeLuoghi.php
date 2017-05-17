@@ -10,7 +10,7 @@
         
         $daRitornare="<div style='padding-top:25px; padding-bottom:25px;'>";
         while($stmt->fetch()) {
-            $daRitornare.=  "<a href='dettaglioLuogo.php?q=".$id."'>"
+            $daRitornare.=  "<a href='dettaglioLuogo.html?q=".$id."'>"
                             ."<div class='w3-row w3-hover-light-grey'>"
                                 ."<div class='w3-col w3-".$colore." w3-text-white w3-center' style='width:30px; height:100%;'> <h5 class='noPad'><b>" .$lettera. "</b></h5></div>"
                                 ."<div class='w3-rest w3-container'>"."<h5 class='noPad'>" .$nome. "<small>, " .$tipo_via." " .$via. " ";
@@ -64,7 +64,7 @@
                             });';
             
                             //InfoWindow
-            $infoBtn = "<a href='dettaglioLuogo.php?q=".$id."'>"."<i class='fa fa-info-circle fa-2x w3-text-blue w3-hover-text-purple' aria-hidden='true'></i></a>";
+            $infoBtn = "<a href='dettaglioLuogo.html?q=".$id."'>"."<i class='fa fa-info-circle fa-2x w3-text-blue w3-hover-text-purple' aria-hidden='true'></i></a>";
             $infoContent = "<h4 class='noPad'>".$infoBtn.$nome."</h4>";
             
             $daRitornare .= '(function(marker) {
@@ -148,7 +148,7 @@
                                     icon: "img/label/'.$colore.'.jpg"
                                 });';
                 //InfoWindow
-                $infoBtn = "<a href='dettaglioLuogo.php?q=".$id_luogo."'>"."<i class='fa fa-info-circle fa-2x w3-text-blue w3-hover-text-purple' aria-hidden='true'></i></a>";
+                $infoBtn = "<a href='dettaglioLuogo.html?q=".$id_luogo."'>"."<i class='fa fa-info-circle fa-2x w3-text-blue w3-hover-text-purple' aria-hidden='true'></i></a>";
                 $infoContent = "<h4 class='noPad'>".$infoBtn.$nome."</h4>";
                 $daRitornare .= '(function (marker) {
                                     var infoContent = "'.$infoContent.'";

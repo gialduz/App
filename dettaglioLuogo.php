@@ -6,20 +6,12 @@
     <meta charset="utf-8">
     
     <title>Dettaglio Luogo - Segni d'Infanzia</title>
-    
-    <link rel="stylesheet" href="css/w3.css">
-    <link rel="stylesheet" href="css/stile.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
-    <script src="js/jquery.js"></script>
 
 </head>
 
 <body style="max-width:640px; margin:0 auto;">
-    <script src="js/menuOverlay.js"></script>
-    <script src="js/menuBar.js"></script>
     
     <div id="corpo">
-        <div id="spazioBarra"></div>
 
       <!-- The Grid -->
         <div class="w3-row w3-pale-blue">
@@ -88,7 +80,7 @@
                     $stmt->store_result(); //nescessario per num_rows
                     $stmt->bind_result($id, $nome); 
                     if($stmt->num_rows) {
-                        while($stmt->fetch())   { $daRitornare.= '<a href="dettaglioEvento.php?evento='.$id.'"><div class="w3-text-blue"><p>[#'.$id.'] '.$nome.'</p></div></a>'; }
+                        while($stmt->fetch())   { $daRitornare.= '<a href="dettaglioEvento.html?evento='.$id.'"><div class="w3-text-blue"><p>[#'.$id.'] '.$nome.'</p></div></a>'; }
                     } else { $daRitornare= "Nessun evento"; }
                     
                     $conn->close();

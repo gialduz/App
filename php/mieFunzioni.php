@@ -8,13 +8,14 @@ require 'funzioniMappeLuoghi.php';
         require 'connessione.php';// richiamo lo script responsabile della connessione a MySQL
         return   stampaTitolo($numeroEvento, $conn)
                 .stampaFoto($numeroEvento, $conn)
-                .stampaAggiungiPreferito()
+                //.stampaAggiungiPreferito()
                 ."<div class='w3-pale-red' style='padding: 15px 20px 15px 20px;'>".stampaPersona($numeroEvento, $conn)
                 .stampaTesto($numeroEvento, $conn)
                 .stampaDove($numeroEvento, $conn)
                 .stampaMappaEvento($numeroEvento)
-                .stampaBadgeQuando($numeroEvento)
-                .stampaBadge($numeroEvento, $conn)
+                ."<hr>".stampaBadgeQuando2($numeroEvento)
+                ."<hr>".stampaBadge($numeroEvento, $conn)."<hr>"
+                ."<a href='mockupInfo.html#-infoBiglietti'> <div class='w3-container w3-purple w3-card-8 w3-round w3-center'><h4><b>"."Prenota evento"."</b></h4>"."</div></a><hr>"
                 .stampaBadgeSponsor($numeroEvento)
                 ."</div>";
     }
@@ -31,7 +32,8 @@ require 'funzioniMappeLuoghi.php';
         $stmt->fetch();
         $stmt->close();
         
-        return "<div class='w3-padding w3-container w3-purple'><h4><span class='w3-xxlarge w3-left' style='margin-right:5px;'>" . $nome. "</span>" . verificaSpecialeRagazzi($numeroEvento, $conn)."</div></h4>" ;
+        
+        return "<div class='w3-container w3-purple w3-text-white'><h2><span style='margin-right:5px;'>" . $nome. "</span>" . verificaSpecialeRagazzi($numeroEvento, $conn)."</h2></div>" ;
 
     }
 
@@ -42,7 +44,7 @@ require 'funzioniMappeLuoghi.php';
         $stmt->bind_result($speciale_ragazzi);
         $stmt->fetch();
         $stmt->close();
-        if ($speciale_ragazzi){return "<span class='w3-left' style='padding-top:10px'><i class='w3-white w3-text-purple w3-cell w3-large w3-round padded5'>Teen Special</i></span>";}
+        if ($speciale_ragazzi){return "<span style='padding-top:10px'><i class='w3-white w3-text-purple w3-cell w3-large w3-round padded5'>Teen Special</i></span>";}
     }
 
 
@@ -64,7 +66,7 @@ require 'funzioniMappeLuoghi.php';
 
     function stampaAggiungiPreferito() { // salva preferito in JS in pagina dettaglioEvento.php
         
-        return "<button id='btnPreferito' class='w3-button w3-right' onclick='salvaPreferito()'> <i class='fa fa-heart-o' aria-hidden='true'></i> </button>" ;
+        return "<button id='btnPreferito' class='w3-padding w3-right w3-button' onclick='salvaPreferito()'> <i class='fa fa-heart-o' aria-hidden='true'></i> </button>" ;
 
     }
     
@@ -107,12 +109,12 @@ require 'funzioniMappeLuoghi.php';
         $stmt->fetch();
 
         if($alt_name != "" && $tipologia != 1){
-            return "<a href='artista.php?id=".$id_persona."' class='w3-text-purple'>". $alt_name . "</a>";
+            return "<a href='artista.html?id=".$id_persona."' class='w3-text-purple'>". $alt_name . "</a>";
         }else{
             if($alt_name != ""){
-            return "<a href='artista.php?id=".$id_persona."' class='w3-text-blue'>". $nome . " " . $cognome. " (".$alt_name.")". "</a>";
+            return "<a href='artista.html?id=".$id_persona."' class='w3-text-blue'>". $nome . " " . $cognome. " (".$alt_name.")". "</a>";
             }
-            return "<a href='artista.php?id=".$id_persona."' class='w3-text-blue'>".$nome . " " . $cognome. "</a>";
+            return "<a href='artista.html?id=".$id_persona."' class='w3-text-blue'>".$nome . " " . $cognome. "</a>";
         }
     }  
     
@@ -141,11 +143,11 @@ require 'funzioniMappeLuoghi.php';
         $stmt->fetch();
         
         return  "<div class='w3-row'>"
-                    ."<div class='w3-col s9 cappato'>"
-                        ."<a href='dettaglioLuogo.php?q=".$id."'><h4><b>" .$nome. "</b><h4></a>"
+                    ."<div class='w3-col w3-text-purple s9 cappato w3-round w3-center'>"
+                        ."<a href='dettaglioLuogo.html?q=".$id."'><h4><b>" .$nome. "</b><h4></a>"
                     ."</div>"
                     ."<div class='w3-col s3 '>"
-                        ."<h5><button class='w3-button w3-block dark-green w3-hover-green w3-round-large mostraMappa'><i class='fa fa-map-marker' aria-hidden='true'></i> Maps</button></h5>"
+                        ."<h6><button class='w3-button w3-block dark-green w3-hover-green w3-round mostraMappa'><i class='fa fa-map-marker' aria-hidden='true'></i> Map</button></h6>"
                     ."</div>"
                 ."</div>";
         $stmt->close();
@@ -182,30 +184,94 @@ require 'funzioniMappeLuoghi.php';
         $stellaRossa= "<div class='fa fa-star-o w3-red w3-text-white' aria-hidden='true' style='padding:1px;'></div>";
         
         while($stmt->fetch()) {
+            $daRitornare.= "<div class='badgeContainer'>"; //apro bCont
             if($ultimoGiornoNumero != soloGiorno(soloData($data_ora))){
-                $daRitornare.= ""
-                    ."<div class='badgeContainer'>"
-                        .'<div class="badge w3-food-salmon">'
+
+            $daRitornare.='<div class="badge w3-food-salmon">'
                             ."<h1>" . soloGiorno(soloData($data_ora)) . "</h1>" 
                             . "<p>". substr (giornoIta(date('l', strtotime($data_ora))), 0,3) ."</p>"
                         .'</div>';
             if($speciale){$daRitornare.= "<span class='abra'>".$stellaRossa." ".tagliaSec(soloOra($data_ora)).'</span>';}
             else{$daRitornare.= "<span class='abra'>". tagliaSec(soloOra($data_ora)) . "</span>";}
-            $daRitornare.="</div>";
-
-                $daRitornare.= "<i style='width:10px; float:left'>&nbsp;</i>"; //spazio 10px orizzontale
+            
             } else {
-                if($speciale){                 
-                    $daRitornare.= '<script>$("span.abra").last().append("<br>'.$stellaRossa." ".tagliaSec(soloOra($data_ora)).'");</script>';
-                    //$daRitornare.= '<script>$("span.abra").last().append('.$stellaRossa.');</script>';
-                }
-                else{$daRitornare.= '<script>$("span.abra").last().append("<br>'.tagliaSec(soloOra($data_ora)).'");</script>';}
+                if($speciale){$daRitornare.= "<span class='abra'>".$stellaRossa." ".tagliaSec(soloOra($data_ora)).'</span>';}
+                else{$daRitornare.= "<span class='abra'>". tagliaSec(soloOra($data_ora)) . "</span>";}
                 
-                
+
             }
+            
+            $daRitornare.="</div>"; //chiudo bCont
+            $daRitornare.= "<i style='width:10px; float:left'>&nbsp;</i>"; //spazio 10px orizzontale
             $ultimoGiornoNumero= soloGiorno(soloData($data_ora));            
         }
         return $daRitornare. "</div><br>";
+    }
+
+    function stampaBadgeQuando2($numeroEvento) {
+        require 'php/configurazione.php';
+        require 'php/connessione.php';
+        $stmt = $conn->prepare("SELECT eld.data_ora, eld.speciale FROM eventoLuogoData AS eld WHERE eld.id_evento = ? ORDER BY eld.data_ora");
+        $stmt->bind_param("i", $numeroEvento);
+        $stmt->execute();
+        $stmt->bind_result($data_ora, $speciale);
+        
+        $giorni=array();
+        $i=0;
+        $ultimoGiornoNumero= 0;
+        
+        while($stmt->fetch()) {
+            
+            if($ultimoGiornoNumero != soloGiorno(soloData($data_ora))){
+                $giorni[$i]= soloData($data_ora);
+                $i++;
+            }            
+            $ultimoGiornoNumero= soloGiorno(soloData($data_ora));  
+        }
+        $i=0;
+        
+        $daRitornare.= "<div class='w3-row'>";
+        while($giorni[$i]) {
+                        //$daRitornare.= $giorni[$i] ."<br>";  
+
+            $daRitornare.= stampaBadgeQuandoGiorno($numeroEvento, $giorni[$i]);  
+
+            $i++;
+        }
+        $daRitornare.= "</div>";
+        
+        return $daRitornare;
+    }
+
+    function stampaBadgeQuandoGiorno($numeroEvento, $giorno) {
+        require 'php/configurazione.php';
+        require 'php/connessione.php';
+        $stellaRossa= "<div class='fa fa-star-o w3-red w3-text-white' aria-hidden='true' style='padding:1px;'></div>";
+        $dataSQL= $giorno."%";
+        
+        $stmt = $conn->prepare("SELECT eld.data_ora, eld.speciale FROM eventoLuogoData AS eld WHERE (eld.id_evento = ? AND eld.data_ora LIKE ?) ORDER BY eld.data_ora");
+        $stmt->bind_param("is", $numeroEvento, $dataSQL);
+        $stmt->execute();
+        $stmt->bind_result($data_ora, $speciale);
+        
+        $daRitornare.= "<div class='w3-col m2 s3'>";
+        $daRitornare.='<div class="badge w3-food-salmon">'
+                            ."<h1>" . soloGiorno($giorno) . "</h1>" 
+                            . "<p>". substr (giornoIta(date('l', strtotime($giorno))), 0,3) ."</p>"
+                        .'</div>';
+        
+        $daRitornare.=      "<div class='badgeCaption'>";
+        
+        while($stmt->fetch()) {
+            if(!$speciale) $daRitornare.= "<span>" .soloOra($data_ora). "</span><br>";
+            else $daRitornare.= "<span class='w3-text-red'>".soloOra($data_ora)." ".$stellaRossa."</span><br>";
+        }
+        $daRitornare.=      "</div>";
+
+        $daRitornare.= "</div>";
+
+        
+        return $daRitornare;
     }
 
 
@@ -223,30 +289,30 @@ require 'funzioniMappeLuoghi.php';
         if($ticket){$ticketSN= '€';} else{$ticketSN= 'Free';}
          
         
-        return  "<div class='w3-center w3-row'>"
-                    ."<div class='badgeContainer'>"
+        return  "<div class='w3-row'>"
+                    ."<div class='w3-col m2 s3' style='margin-bottom:16px'>"
                         ."<div class='badge w3-blue'><h6><b>". $eta_min."-". $eta_max ."</b></h6></div>"
-                        ."<span> et&agrave; </span>"
+                        ."<div class='badgeCaption'><span> et&agrave; </span></div>"
                     ."</div>"
-                    ."<i class='spazioBadge'>&nbsp;</i>" //spazio 10px orizzontale
-                    ."<div class='badgeContainer'>"
+                    //."<i class='spazioBadge'>&nbsp;</i>" //spazio 10px orizzontale
+                    ."<div class='w3-col m2 s3' style='margin-bottom:16px'>"
                         ."<div class='badge w3-".$colore."'><h6><b>". $lettera ."</b></h6></div>"
-                        ."<span> luogo </span>"
+                        ."<div class='badgeCaption'><span> luogo </span></div>"
                     ."</div>"
-                    ."<i class='spazioBadge'>&nbsp;</i>" //spazio 10px orizzontale
-                    ."<div class='badgeContainer'>"
+                    //."<i class='spazioBadge'>&nbsp;</i>" //spazio 10px orizzontale
+                    ."<div class='w3-col m2 s3' style='margin-bottom:16px'>"
                         ."<div class='badge w3-yellow'><h6><b>". $ticketSN ."</b></h6></div>"
-                        ."<span> ticket </span>"
+                        ."<div class='badgeCaption'><span> ticket </span></div>"
                     ."</div>"
-                    ."<i class='spazioBadge'>&nbsp;</i>" //spazio 10px orizzontale
-                    ."<div class='badgeContainer'>"
+                    //."<i class='spazioBadge'>&nbsp;</i>" //spazio 10px orizzontale
+                    ."<div class='w3-col m2 s3' style='margin-bottom:16px'>"
                         ."<div class='badge w3-dark-grey'><h6><b>". $durata ."'</b></h6></div>"
-                        ."<span> minuti </span>"
+                        ."<div class='badgeCaption'><span> minuti </span></div>"
                     ."</div>"
-                    ."<i class='spazioBadge'>&nbsp;</i>" //spazio 10px orizzontale
-                    ."<div class='badgeContainer'>"
+                    //."<i class='spazioBadge'>&nbsp;</i>" //spazio 10px orizzontale
+                    ."<div class='w3-col m2 s3' style='margin-bottom:16px'>"
                         ."<div class='badge'><img src='img/tipologiaEvento/".$tipo_evento.".png' class='resp'></div>"
-                        ."<span>".$tipo_evento."</span>"
+                        ."<div class='badgeCaption'><span>".$tipo_evento."</span></div>"
                     ."</div>"
                     /*."<div class='unquinto w3-purple'>"
                         ."<p>Durata: ". $durata ." </p>"
@@ -269,16 +335,23 @@ require 'funzioniMappeLuoghi.php';
         $stmt->execute();
         $stmt->bind_result($alt_name, $foto);
         
-        $daRitornare= "<div class=' w3-row w3-container'>";
+        $daRitornare= "<div class='w3-row'>";
         $primoGiro=1;
         while($stmt->fetch()){
-                if($primoGiro){$daRitornare.= "<hr><div id='headSponsor'><h3>Sponsor</h3></div>"; $primoGiro=0;}
+                if($primoGiro){$daRitornare.= "<div id='headSponsor'><h3>Sponsor</h3></div>"; $primoGiro=0;}
 
-              $daRitornare.= "<div class='badgeContainer w3-center'>"
+              /*$daRitornare.= "<div class='badgeContainer w3-center'>"
                                 .'<div class="imgQuadrataArtista" style="background-image: url('.$foto.');"></div>'
                                 //."<span>".$alt_name."</span>"
                             ."</div>"
-                            ."<i class='spazioBadge'>&nbsp;</i>"; //spazio 10px orizzontale;
+                            ."<i class='spazioBadge'>&nbsp;</i>"; //spazio 10px orizzontale;*/
+            
+            
+            
+            $daRitornare.= "<div class='w3-col m2 s3'>"
+                        ."<div class='badge'><img src='".$foto."' class='resp'></div>"
+                        ."<div class='badgeCaption'><span>".$alt_name."</span></div>"
+                    ."</div>";
                             
         }
         if($stmt->num_rows() == 0){$daRitornare.= "<script>$('#headSponsor').hide();</script>";}
@@ -377,7 +450,7 @@ require 'funzioniMappeLuoghi.php';
         $stmt->bind_result($id, $eta_min, $eta_max, $nome_evento, $data_ora, $dove, $speciale);
         $stmt->fetch();
         
-        $daRitornare.= "<a href='dettaglioEvento.php?evento=".$numeroEvento."'><div class='w3-row w3-hover-grey w3-padding giornoTutti giorno" .$data. "'>" 
+        $daRitornare.= "<a href='dettaglioEvento.html?evento=".$numeroEvento."'><div class='w3-row w3-hover-grey w3-padding giornoTutti giorno" .$data. "'>" 
                         ."<div class='itemFasciaEta w3-center w3-blue w3-col s2 m1'>"
                             .$eta_min."-".$eta_max
                         ."</div>"
@@ -392,7 +465,7 @@ require 'funzioniMappeLuoghi.php';
                                 . $dove
                             ."</div>"
                         ."</div>"
-                        ."<div class='w3-col s3 w3-center hide360'>"
+                        ."<div class='w3-col s3 w3-center'>"
                             .stampaItemBadge($id_istanza)
                         ."</div>"
                     ."</div></a>";

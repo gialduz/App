@@ -1,7 +1,7 @@
 <?php
 
     function stampaArtista($id, $nome, $cognome, $alt_name, $foto) {
-                $daRitornare= "<a href='artista.php?id=".$id."'>"
+                $daRitornare= "<a href='artista.html?id=".$id."'>"
                     ."<div class='w3-row w3-pale-blue w3-hover-grey'>"
                         ."<div class='w3-col s2 w3-center'>"
                                 .'<div class="imgQuadrataArtista w3-circle" style="background-image: url('.$foto.');"></div>'

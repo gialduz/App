@@ -4,22 +4,12 @@
 <head>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
-    
-    <title>Artisti - Segni d'Infanzia</title>
-    
-    <link rel="stylesheet" href="css/w3.css">
-    <link rel="stylesheet" href="css/stile.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
-    <script src="js/jquery.js"></script>
 
 </head>
 
 <body style="max-width:640px; margin:0 auto;">
-    <script src="js/menuOverlay.js"></script>
-    <script src="js/menuBar.js"></script>
     
     <div id="corpo">
-        <div id="spazioBarra"></div>
     
     
     
@@ -54,9 +44,11 @@
                                     <img src="img/'.$foto.'" style="width:100%">
                                 </div>
                                 <div class="padded10">
-                                    <h5>Eventi correlati:</h5>'
+                                    <div class="w3-white">
+                                    <h5 class="w3-orange">Eventi correlati:</h5>'
                                     .stampaEventiCorrelati($id_artista).
-                                '</div>
+                                '<br></div>
+                                </div>
                             </div><br>
 
                         <!-- End Left Column -->
@@ -90,7 +82,7 @@
                     $stmt->store_result(); //nescessario per num_rows
                     $stmt->bind_result($id, $nome); 
                     if($stmt->num_rows) {
-                        while($stmt->fetch())   { $daRitornare.= '<a href="dettaglioEvento.php?evento='.$id.'"><div class="w3-text-blue"><p>#'.$id.' '.$nome.'</p></div></a>'; }
+                        while($stmt->fetch())   { $daRitornare.= '<a href="dettaglioEvento.html?evento='.$id.'"><div class="w3-text-blue"><p>#'.$id.' '.$nome.'</p></div></a>'; }
                     } else { $daRitornare= "Nessun evento"; }
                     
                     $conn->close();

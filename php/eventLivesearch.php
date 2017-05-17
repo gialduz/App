@@ -1,7 +1,7 @@
 <?php
 
     function stampaEventoResult($id, $nome) {
-        $daRitornare= "<a href='dettaglioEvento.php?evento=".$id."'>"
+        $daRitornare= "<a href='dettaglioEvento.html?evento=".$id."'>"
             ."<div class='w3-row padded10 w3-hover-grey w3-pale-yellow'>"
                 ."<div class='w3-col l12 w3-center'> [".$id."] <b>".$nome."</b></div>"
             ."</div>" ."<hr style='padding:0; margin:0;'>"

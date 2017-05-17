@@ -2,8 +2,9 @@ body{font-size:14px;}
 #corpo{background-color: white;}
 div#spazioBarra{min-height: 75px;}
 
-.itemBadge > p{ margin: 0; padding-top: 8px; font-weight: 600;}
-@media (max-width: 560px) {.itemBadge > p{ padding-top: 4px;}}
+
+.itemBadge > p{ margin: 0; padding-top: 8px;}
+@media (max-width: 560px) {.itemBadge > p{ padding-top: 6px;}}
 
 
 
@@ -74,6 +75,8 @@ div#spazioBarra{min-height: 75px;}
 .noPad{padding: 0px; margin: 0px;}
 .padded5{padding: 5px;}
 .padded10{padding: 10px;}
+.padded10lr{padding-left: 10px; padding-right: 10px;}
+
 .resp{width: 100%; height: auto;}
 
 
@@ -105,6 +108,8 @@ th, td{
 .badge p{font-size: 13px; margin:0; padding:0}
 .badgeContainer{text-align: center; width: 50px; float: left;}
 .badgeContainer span{font-size: 10px; margin:0; padding:0; text-transform: uppercase;}
+.badgeCaption span{font-size: 10px; margin:0; padding:0; text-transform: uppercase;}
+
 .spazioBadge{width:10px; height: 75px; float:left;}
 
 /* gestione links A HREF*/
