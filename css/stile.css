@@ -76,6 +76,8 @@ div#spazioBarra{min-height: 75px;}
 .padded5{padding: 5px;}
 .padded10{padding: 10px;}
 .padded10lr{padding-left: 10px; padding-right: 10px;}
+.padded10tb{padding-top: 10px; padding-bottom: 10px;}
+
 
 .resp{width: 100%; height: auto;}
 

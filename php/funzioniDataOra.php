@@ -21,8 +21,7 @@ function dataFiltroBtn($d){
     $daRitornare=""."<b>";
     $daRitornare.= substr(giornoIta(date('l', strtotime($d))), 0, 3 ) ." ";
     $daRitornare.=date('j', strtotime($d)) . " "."</b>";
-    if(date('j', strtotime($d)) == 1)  {    $daRitornare.=substr( meseIta(date('n', strtotime($d))), 0, 3 );   }
-    $stampaMese= substr( meseIta(date('n', strtotime($d))), 0, 3 );
+    $daRitornare.=substr( meseIta(date('n', strtotime($d))), 0, 3 );
     return $daRitornare;
 }
 

@@ -57,20 +57,18 @@
 
             $daRitornare.= stampaIstanza($nomeEvento, $id_evento, $eta_min, $eta_max, $durata, $ticket, soloData($data_ora), soloOra($data_ora), $id_istanza, $dove, $tipo_evento, $speciale_ragazzi, $speciale);
             
-            //gestione TAP e HOLD
             $daRitornare.="<script>".
-            'var myElement = document.getElementById("ist'.$id_istanza.'");
-            var mc = new Hammer(myElement);
-            mc.add( new Hammer.Press({ time: 500 }) );
-            mc.on("tap", function(ev) {
-                // TAP
-                //vai a dettaglio evento
+            '$("#ist'.$id_istanza.'").click(function(event) {
+                // APRI EVENTO
                 window.location.href = "dettaglioEvento.html?evento='.$id_evento.'";
-            })
-            .on("press", function(ev) {
-                // HOLD
-                //togglePreferito
-                $("#ist'.$id_istanza.'").toggleClass("w3-pale-blue");
+            });'
+                ."</script>";
+            
+            $daRitornare.="<script>".
+            '$("#prefBtn'.$id_istanza.'").click(function(event) {
+                // AGGIUNGI PREFERITO
+                event.stopPropagation();
+                $("#prefBtn'.$id_istanza.'").toggleClass("w3-text-red");
                 var myIstanze = JSON.parse(localStorage.getItem("istanzaPreferita"));
                 if(myIstanze['.$id_istanza.']) {
                     myIstanze['.$id_istanza.']= 0; $.growl.error({ title: "'.$nomeEvento.'", message: "Rimosso dai preferiti" });
@@ -78,68 +76,124 @@
                     myIstanze['.$id_istanza.']= 1; $.growl.notice({ title: "'.$nomeEvento.'", message: "Aggiunto ai preferiti" });
                 }
                 localStorage["istanzaPreferita"] = JSON.stringify(myIstanze);
-                
-                
             });'
                 ."</script>";
+                        
             
             //ISTANZA PREFERITA
-            $azione= "$('#ist".$id_istanza."').addClass('w3-pale-blue');";
+            $azione= '$("#prefBtn'.$id_istanza.'").addClass("w3-text-red");';
             $daRitornare.= "<script>
                         var myIstanze =JSON.parse(localStorage.getItem('istanzaPreferita'));
                         if(myIstanze[".$id_istanza."]){".$azione."}
                         </script>";
             
         }
+        
+        //rende badge alti uguali, una volta stampati     +onResize()
+        $daRitornare .= "<script>
+                            $('.itemBadge').each(function(){
+                                $(this).height($(this).width());
+                            });
+                            $('.inclinata').each(function(){
+                                $(this).height($(this).width()/4*5);
+                            });
+                            $( window ).resize(function() {
+                                $('.itemBadge').each(function(){
+                                    $(this).height($(this).width());
+                                });
+                                $('.inclinata').each(function(){
+                                    $(this).height($(this).width()/4*5);
+                                });
+                            });
+
+
+                        </script>";
 
 
         return $daRitornare;
     }
 
-    // ITEM (ISTANZA)
     function stampaIstanza($nomeEvento, $numeroEvento, $eta_min, $eta_max, $durata, $ticket, $data, $orario, $id_istanza, $dove, $tipo_evento, $speciale_ragazzi, $speciale) {
 
 
         $daRitornare.= "<div id='ist".$id_istanza."' class='istanzaEvento w3-row w3-padding'>" 
-                            ."<div class='itemInfoBox w3-col s10'>"
-                                ."<div class='itemFasciaEta w3-center w3-blue w3-col s2'>"
-                                    .$eta_min."-".$eta_max
-                                ."</div>"
-                                ."<div class='w3-col s10 w3-container'>"
-                                    ."<b>" . $nomeEvento . "</b>"
-                                ."</div>"
-                                
-                                ."<div class='w3-col s2 w3-center'>"
-                                    .$orario
-                                ."</div>"
-                                ."<div class='w3-col s10 w3-container'>"
-                                    . $dove
+                            ."<div class='w3-col s12'>"
+                                ."<div class='w3-row'>"
+                                    ."<div class='itemFasciaEta w3-center w3-blue w3-col s2'>"
+                                        .$eta_min."-".$eta_max. "<br>anni"
+                                    ."</div>"
+                                    ."<div class='w3-col s8 padded10lr'>"
+                                        ."<b>" . $nomeEvento . "</b>"
+                                    ."</div>"
+                                    ."<div id='prefBtn".$id_istanza."' class='w3-col s2 w3-center padded5' style='color:lightgrey'>"
+                                        .'<i class="fa fa-heart fa-3x" aria-hidden="true" ></i>'
+                                    ."</div>"
                                 ."</div>"
                             ."</div>"
-                            ."<div class='itemBadgeBox w3-col s2'>"
-                                ."<div class='w3-col s12 w3-center'>"
-                                    .stampaItemBadge($tipo_evento)
+                            
+                            ."<div class='w3-col s12'>"
+                                ."<div class='w3-row'>"
+                                    ."<div class='w3-col s2 w3-center'>"
+                                        .$orario
+                                    ."</div>"
+                                    ."<div class='w3-col s8 padded10lr'>"
+                                        . $dove
+                                    ."</div>"
+                                    ."<div class='w3-col s2 w3-center'>"
+                                        .stampaItemBadge($tipo_evento, $durata, $ticket, $speciale_ragazzi, $speciale, $id_istanza)
+                                    ."</div>"
                                 ."</div>"
                             ."</div>"
                             
                         ."</div>";
         
-        
+        //se gratis -> verde
+        if(!$ticket){$daRitornare.= "<script>$('#ist".$id_istanza."').addClass('w3-pale-green');</script>";}
+        $daRitornare.="<hr style='margin:0; border-top:1px solid #999999'>";
                    
 
 
         return $daRitornare;
     }
     
-    function stampaItemBadge($tipo_evento) {
+    function stampaItemBadge($tipo_evento, $durata, $ticket, $speciale_ragazzi, $speciale, $id_istanza) {
         
+        if($ticket){$ticketSN= '€';} else{$ticketSN= 'Free';}
+        $str =  "<div class='w3-row'>";
         
-        $str .= "<img class='w3-image' src='img/tipologiaEvento/".$tipo_evento.".png' style='max-height:40px;'>";
+        /*$str .= specialeRagazziItemBadge($speciale_ragazzi);
+        $str .= specialeItemBadge($speciale);*/
+        
+        $str .= "<div class='w3-col s6 uppato itemBadge'>"
+                    ."<img class='w3-image' src='img/tipologiaEvento/".$tipo_evento.".png' >"
+                ."</div>"
+                ."<div class='w3-col s6 w3-green itemBadge'>"
+                    .$durata
+                ."</div>";
+        
+        $str .=  "</div>";
+        
         
         return $str;
         
         // IMPORTANTE ! nel PDF c'è riferimento a pagina -> badge collegamento o clic su istanza o niente? (clic per dettaglio evento)
         
+    }
+    
+    function specialeRagazziItemBadge($speciale_ragazzi) {
+        if($speciale_ragazzi){
+            return "<div class='w3-col s3'>"
+                        ."<div class='w3-purple inclinata itemBadge' style='width:80%; float:right;'> <p><b>T</b></p> </div> "
+                    ."</div>";}
+        return "";
+    }
+    
+    function specialeItemBadge($speciale) {
+        if($speciale){
+            return "<div class='w3-col s3'>"
+                        ."<div class='w3-red inclinata itemBadge' style='width:80%; float:right;'> <p><b>S</b></p> </div> "
+                    ."</div>";}
+        return "";
     }
    
     

@@ -90,8 +90,8 @@
         
                                 //preferiti
                                 '<a href="programmaPreferiti.php">'+
-                                    '<div class="w3-col l12 s6 w3-yellow padded10">'+
-                                        '<h6 style="margin:0px;">Preferiti<h6>'+
+                                    '<div class="w3-col l12 s6 w3-red padded10">'+
+                                        '<h6 style="margin:0px;">Preferiti <i class="fa fa-heart"></i><h6>'+
                                     '</div>'+
                                 '</a>'+
         

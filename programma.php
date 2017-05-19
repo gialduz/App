@@ -9,7 +9,6 @@
 
 <body style="max-width:640px; margin:0 auto;">
     
-    <div id="corpo">
         
         
         
@@ -20,7 +19,7 @@
         
         <script> var listaDate =[]; var iData=0; </script>
         
-        <div id='rigaBtn' class="w3-row w3-center padded10">
+        <div id='rigaBtn' class="w3-row w3-center padded10tb">
 
         
         <?php
@@ -190,7 +189,6 @@
 
         </script>
         
-    </div>
         
 </body>
 

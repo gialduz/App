@@ -27,9 +27,6 @@
         <h2>Eventi Preferiti</h2>
         </div>
         
-        <div class="w3-container w3-pale-yellow">
-        <p>Per aggiungere (e rimuovere) un evento ai preferiti basta tener premuto sull'evento nella sezione "programma".</p>
-        </div>
         
         
         <script> var listaDate =[]; var iData=0; </script>
