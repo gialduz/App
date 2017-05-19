@@ -136,7 +136,7 @@ require 'funzioniMappeLuoghi.php';
     
     function stampaDove($numeroEvento, $conn) { // LUOGO E DATE EVENTO(i)
         
-        $stmt = $conn->prepare("SELECT L.id, L.nome FROM ((Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id = eld.id_evento) INNER JOIN Luogo AS L ON L.id = eld.id_luogo) WHERE E.id = ?");
+        $stmt = $conn->prepare("SELECT L.id, L.nome FROM ((Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id = eld.id_evento) INNER JOIN Luogo AS L ON L.id = E.luogo) WHERE E.id = ?");
         $stmt->bind_param("i", $numeroEvento);
         $stmt->execute();
         $stmt->bind_result($id, $nome);
@@ -279,7 +279,7 @@ require 'funzioniMappeLuoghi.php';
         require 'php/configurazione.php';
         require 'php/connessione.php';
 
-        $sql = "SELECT E.eta_min, E.eta_max, E.ticket, E.durata, te.nome AS tipo, L.lettera, L.colore AS doveLettera FROM (((Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id = eld.id_evento) INNER JOIN Luogo AS L ON L.id = eld.id_luogo) INNER JOIN tipologiaEvento AS te ON E.tipologia = te.id) WHERE E.id = ?";
+        $sql = "SELECT E.eta_min, E.eta_max, E.ticket, E.durata, te.nome AS tipo, L.lettera, L.colore AS doveLettera FROM (((Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id = eld.id_evento) INNER JOIN Luogo AS L ON L.id = E.luogo) INNER JOIN tipologiaEvento AS te ON E.tipologia = te.id) WHERE E.id = ?";
 
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $numeroEvento);
@@ -296,7 +296,7 @@ require 'funzioniMappeLuoghi.php';
                     ."</div>"
                     //."<i class='spazioBadge'>&nbsp;</i>" //spazio 10px orizzontale
                     ."<div class='w3-col m2 s3' style='margin-bottom:16px'>"
-                        ."<div class='badge w3-".$colore."'><h6><b>". $lettera ."</b></h6></div>"
+                        ."<div class='badge w3-text-white w3-".$colore."'><h4><b>". $lettera ."</b></h4></div>"
                         ."<div class='badgeCaption'><span> luogo </span></div>"
                     ."</div>"
                     //."<i class='spazioBadge'>&nbsp;</i>" //spazio 10px orizzontale
@@ -364,7 +364,7 @@ require 'funzioniMappeLuoghi.php';
 
     function stampaBadgeTest($numeroEvento, $conn) { // BADGES
         
-        $sql = "SELECT E.eta_min, E.eta_max, E.ticket, E.durata, te.nome AS tipo, L.lettera AS doveLettera FROM (((Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id = eld.id_evento) INNER JOIN Luogo AS L ON L.id = eld.id_luogo) INNER JOIN tipologiaEvento AS te ON E.tipologia = te.id) WHERE E.id = ?";
+        $sql = "SELECT E.eta_min, E.eta_max, E.ticket, E.durata, te.nome AS tipo, L.lettera AS doveLettera FROM (((Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id = eld.id_evento) INNER JOIN Luogo AS L ON L.id = E.luogo) INNER JOIN tipologiaEvento AS te ON E.tipologia = te.id) WHERE E.id = ?";
         
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $numeroEvento);
@@ -444,7 +444,7 @@ require 'funzioniMappeLuoghi.php';
         include 'configurazione.php';
         include 'connessione.php';
         
-        $stmt = $conn->prepare("SELECT E.id, E.eta_min, E.eta_max, E.nome, eld.data_ora, L.nome AS dove, eld.speciale FROM ((Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id = eld.id_evento) INNER JOIN Luogo AS L ON L.id = eld.id_luogo) WHERE eld.id_istanza = ?");
+        $stmt = $conn->prepare("SELECT E.id, E.eta_min, E.eta_max, E.nome, eld.data_ora, L.nome AS dove, eld.speciale FROM ((Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id = eld.id_evento) INNER JOIN Luogo AS L ON L.id = E.luogo) WHERE eld.id_istanza = ?");
         $stmt->bind_param("i", $id_istanza);
         $stmt->execute();
         $stmt->bind_result($id, $eta_min, $eta_max, $nome_evento, $data_ora, $dove, $speciale);

@@ -12,12 +12,12 @@
     require 'php/configurazione.php';
     require 'php/connessione.php';
 
-    $stmt = $conn->prepare("SELECT E.id, E.nome, E.eta_min, E.eta_max, E.durata, tE.nome FROM (Evento AS E INNER JOIN tipologiaEvento AS tE ON E.tipologia=tE.id) WHERE 1 ORDER BY E.eta_min, E.eta_max, E.nome");
+    $stmt = $conn->prepare("SELECT E.id, E.nome, E.eta_min, E.eta_max, E.durata, tE.nome, L.nome FROM ( (Evento AS E INNER JOIN tipologiaEvento AS tE ON E.tipologia=tE.id) INNER JOIN Luogo AS L ON E.luogo=L.id) WHERE 1 ORDER BY E.eta_min, E.eta_max, E.nome");
     $stmt->execute();
-    $stmt->bind_result($id_evento, $nomeEvento, $eta_min, $eta_max, $durata, $tipoEvento);
+    $stmt->bind_result($id_evento, $nomeEvento, $eta_min, $eta_max, $durata, $tipoEvento, $luogo);
 
     while($stmt->fetch()) {
-       $daRitornare.= stampaEventoInLista($id_evento, $nomeEvento, $eta_min, $eta_max, $durata, $tipoEvento)
+       $daRitornare.= stampaEventoInLista($id_evento, $nomeEvento, $eta_min, $eta_max, $durata, $tipoEvento, $luogo)
                         ."<hr style='margin:2px 0 2px 0; border-top:1px solid #999999'>" ;
     }
     
@@ -28,7 +28,7 @@
 
 
 
-    function stampaEventoInLista($id_evento, $nomeEvento, $eta_min, $eta_max, $durata, $tipoEvento) { // BADGES
+    function stampaEventoInLista($id_evento, $nomeEvento, $eta_min, $eta_max, $durata, $tipoEvento, $luogo) { // BADGES
         
         $daRitornare.= "<a href='dettaglioEvento.html?evento=".$id_evento."'"
                             ."<div id='evLista".$id_evento."' class='w3-row'>"
@@ -36,7 +36,8 @@
                                     .$eta_min."-".$eta_max. "<br>anni"
                                 ."</div>"
                                 ."<div class='w3-col s8 padded10lr'>"
-                                    ."<b>" . $nomeEvento . "</b>"
+                                    ."<b>" . $nomeEvento . "</b><br>"
+                                    ."<i>" . $luogo . "</i>"
                                 ."</div>"
                                 ."<div class='w3-col s2 padded5' style='padding-top:0'>"
                                     ."<div class='w3-row'>"

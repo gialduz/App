@@ -105,7 +105,7 @@
     function stampaMappaEvento($numeroEvento) {
         require 'configurazione.php';
         require 'connessione.php';
-        $sql = "SELECT L.lettera, L.colore, L.nome, L.latitudine, L.longitudine, L.id FROM (Luogo AS L INNER JOIN eventoLuogoData AS eld ON eld.id_luogo=L.id) WHERE eld.id_evento= ? ORDER BY L.id";
+        $sql = "SELECT L.lettera, L.colore, L.nome, L.latitudine, L.longitudine, L.id FROM (Luogo AS L INNER JOIN Evento AS E ON E.luogo=L.id) WHERE E.id= ? ORDER BY L.id";
         
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $numeroEvento);

@@ -73,7 +73,7 @@
                 function stampaEventiCorrelati($id_luogo) {
                     include 'php/configurazione.php';
                     include 'php/connessione.php';
-                    $sql=   "SELECT DISTINCT E.id, E.nome FROM (Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id=eld.id_evento) WHERE eld.id_luogo= ? ORDER BY E.id";
+                    $sql=   "SELECT DISTINCT E.id, E.nome FROM Evento AS E WHERE E.luogo= ? ORDER BY E.id";
                     $stmt = $conn->prepare($sql);
                     $stmt->bind_param("i", $id_luogo);
                     $stmt->execute();

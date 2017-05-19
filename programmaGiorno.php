@@ -32,7 +32,7 @@
         
         $giorno= $giorno . "%"; // se metto % in stmt da errore (lo vede come placeholder di variabile)
 
-        $sql = "SELECT E.nome, E.id, E.eta_min, E.eta_max, E.durata, E.ticket, eld.id_istanza, eld.data_ora, L.nome, tE.nome, E.speciale_ragazzi, eld.speciale FROM (((Evento AS E INNER JOIN tipologiaEvento AS tE ON E.tipologia=tE.id) INNER JOIN eventoLuogoData AS eld ON E.id=eld.id_evento) INNER JOIN Luogo AS L ON L.id=eld.id_luogo ) WHERE eld.data_ora LIKE ? ORDER BY data_ora, id_evento;";
+        $sql = "SELECT E.nome, E.id, E.eta_min, E.eta_max, E.durata, E.ticket, eld.id_istanza, eld.data_ora, L.nome, tE.nome, E.speciale_ragazzi, eld.speciale FROM (((Evento AS E INNER JOIN tipologiaEvento AS tE ON E.tipologia=tE.id) INNER JOIN eventoLuogoData AS eld ON E.id=eld.id_evento) INNER JOIN Luogo AS L ON L.id=E.luogo ) WHERE eld.data_ora LIKE ? ORDER BY data_ora, id_evento;";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $giorno);
         $stmt->execute();
@@ -126,7 +126,7 @@
                                         .$orario
                                     ."</div>"
                                     ."<div class='w3-col s8 padded10lr'>"
-                                        . $dove
+                                        ."<i>" .$dove ."</i>"
                                     ."</div>"
                                     ."<div class='w3-col s2 w3-center'>"
                                         .stampaItemBadge($tipo_evento, $durata, $ticket, $speciale_ragazzi, $speciale, $id_istanza)

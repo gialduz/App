@@ -61,7 +61,7 @@
         <script>$("#caricamento").hide();</script>
         
         <div class="w3-center w3-pale-red padded10">
-            Seleziona un giorno per vedere gli eventi in programma, <br> OPPURE <br> <div class="w3-btn showAll"> Clicca qui per il programma completo </div>
+            Seleziona un giorno per vedere gli eventi in programma, <br> OPPURE <br> <div class="w3-btn showAll"> Clicca qui<br>per il programma completo </div>
         </div>
         
         
