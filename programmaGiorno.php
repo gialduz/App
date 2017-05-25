@@ -26,29 +26,54 @@
         include 'php/connessione.php';
         include 'php/funzioniDataOra.php';
         
-        $daRitornare.="<div class='w3-orange w3-center'><h2 style='margin:0'>".dataIta($giorno)."</h2></div>";
-        //divisione grafica istanze
-        $daRitornare.="<hr style='margin:0'>";
+        $giornoSQL= $giorno . "%"; // se metto % in stmt da errore (lo vede come placeholder di variabile)
         
-        $giorno= $giorno . "%"; // se metto % in stmt da errore (lo vede come placeholder di variabile)
-
-        $sql = "SELECT E.nome, E.id, E.eta_min, E.eta_max, E.durata, E.ticket, eld.id_istanza, eld.data_ora, L.nome, tE.nome, E.speciale_ragazzi, eld.speciale FROM (((Evento AS E INNER JOIN tipologiaEvento AS tE ON E.tipologia=tE.id) INNER JOIN eventoLuogoData AS eld ON E.id=eld.id_evento) INNER JOIN Luogo AS L ON L.id=E.luogo ) WHERE eld.data_ora LIKE ? ORDER BY data_ora, id_evento;";
+        $select = "SELECT E.nome, E.id, E.eta_min, E.eta_max, E.durata, E.ticket, eld.id_istanza, eld.data_ora, L.nome, tE.nome, E.speciale_ragazzi, eld.speciale, eld.esaurito";
+        $from= "FROM (((Evento AS E INNER JOIN tipologiaEvento AS tE ON E.tipologia=tE.id) INNER JOIN eventoLuogoData AS eld ON E.id=eld.id_evento) INNER JOIN Luogo AS L ON L.id=E.luogo )";
+        $where= "WHERE (eld.data_ora LIKE ?)";
+        
+        //check filtri attivi
+        $etaDaCercare= $_GET["eta"];
+        $famiglia=$_GET["famiglia"];
+        $scuola=$_GET["scuola"];
+        $gratuito=$_GET["gratuito"];
+        $luogo=$_GET["luogo"];
+        $tipoEvento = $_GET["tipoevento"];
+                
+        if($etaDaCercare) {$where.= "AND (E.eta_min <= ".$etaDaCercare." AND E.eta_max >= ".$etaDaCercare.")";}
+        if($famiglia) {$where.= "AND (E.famiglia = 1)";}
+        if($scuola) {$where.= "AND (E.scuola = 1)";}
+        if($gratuito) {$where.= "AND (E.ticket = 0)";}
+        if($luogo!=0) {$where.= "AND (E.luogo = ".$luogo.")";}
+        
+        if($tipoEvento == '0,0,0,0,0') $tipoEvento = '0,1,2,3,4';
+        $where.= "AND (E.tipologia IN (".$tipoEvento.") )";
+        
+        
+        $sql= $select." ".$from." ".$where." ORDER BY data_ora, id_evento;";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $giorno);
+        $stmt->bind_param("s", $giornoSQL); 
         $stmt->execute();
-        $stmt->bind_result($nomeEvento, $id_evento, $eta_min, $eta_max, $durata, $ticket, $id_istanza, $data_ora, $dove, $tipo_evento, $speciale_ragazzi, $speciale);
+        $stmt->bind_result($nomeEvento, $id_evento, $eta_min, $eta_max, $durata, $ticket, $id_istanza, $data_ora, $dove, $tipo_evento, $speciale_ragazzi, $speciale, $esaurito);
 
-
+        $primoGiro=1;
         while($stmt->fetch()) {    
-            
+            if($primoGiro){
+                $daRitornare.="<div class='w3-orange w3-center'><h2 style='margin:0'>".dataIta($giorno)."</h2></div>";
+                $primoGiro=0;
+            }    
+
             
 
-            $daRitornare.= stampaIstanza($nomeEvento, $id_evento, $eta_min, $eta_max, $durata, $ticket, soloData($data_ora), soloOra($data_ora), $id_istanza, $dove, $tipo_evento, $speciale_ragazzi, $speciale);
+            $daRitornare.= stampaIstanza($nomeEvento, $id_evento, $eta_min, $eta_max, $durata, $ticket, soloData($data_ora), soloOra($data_ora), $id_istanza, $dove, $tipo_evento, $speciale_ragazzi, $speciale, $esaurito);
             
             $daRitornare.="<script>".
             '$("#ist'.$id_istanza.'").click(function(event) {
                 // APRI EVENTO
+                sessionStorage["ultimaIstanza"] = '.$id_istanza.';
+                //alert(localStorage["ultimaIstanza"]);
                 window.location.href = "dettaglioEvento.html?evento='.$id_evento.'";
+                
             });'
                 ."</script>";
             
@@ -69,6 +94,12 @@
                         
             
             //ISTANZA PREFERITA
+            $azione= '$("#prefBtn'.$id_istanza.'").addClass("w3-text-red");';
+            $daRitornare.= "<script>
+                        var myIstanze =JSON.parse(localStorage.getItem('istanzaPreferita'));
+                        if(myIstanze[".$id_istanza."]){".$azione."}
+                        </script>";
+            //FILTRO TIPOLOGIA EVENTO
             $azione= '$("#prefBtn'.$id_istanza.'").addClass("w3-text-red");';
             $daRitornare.= "<script>
                         var myIstanze =JSON.parse(localStorage.getItem('istanzaPreferita'));
@@ -102,8 +133,12 @@
     }
 
     // ITEM (ISTANZA)
-    function stampaIstanza($nomeEvento, $numeroEvento, $eta_min, $eta_max, $durata, $ticket, $data, $orario, $id_istanza, $dove, $tipo_evento, $speciale_ragazzi, $speciale) {
-
+    function stampaIstanza($nomeEvento, $numeroEvento, $eta_min, $eta_max, $durata, $ticket, $data, $orario, $id_istanza, $dove, $tipo_evento, $speciale_ragazzi, $speciale, $esaurito) {
+        
+        if($speciale) {
+            $stellaRossa= "<div class='fa fa-star-o w3-red w3-text-white' aria-hidden='true' style='padding:1px;'></div>";
+            $nomeEvento= "<span class='w3-text-red'>" .$stellaRossa." ". $nomeEvento. "</span>";
+        }
 
         $daRitornare.= "<div id='ist".$id_istanza."' class='istanzaEvento w3-row w3-padding'>" 
                             ."<div class='w3-col s12'>"
@@ -112,7 +147,7 @@
                                         .$eta_min."-".$eta_max. "<br>anni"
                                     ."</div>"
                                     ."<div class='w3-col s8 padded10lr'>"
-                                        ."<b>" . $nomeEvento . "</b>"
+                                        ."<b>" .checkEsaurito($esaurito) . $nomeEvento . "</b>"
                                     ."</div>"
                                     ."<div id='prefBtn".$id_istanza."' class='w3-col s2 w3-center padded5' style='color:lightgrey'>"
                                         .'<i class="fa fa-heart fa-3x" aria-hidden="true" ></i>'
@@ -144,6 +179,13 @@
 
         return $daRitornare;
     }
+    
+    
+    function checkEsaurito($esaurito){
+        if($esaurito) return "<span class='w3-purple padded5 w3-round' style='margin: 0 8px 0 0'>Esaurito</span>";
+        return "";
+    }
+    
     
     function stampaItemBadge($tipo_evento, $durata, $ticket, $speciale_ragazzi, $speciale, $id_istanza) {
         

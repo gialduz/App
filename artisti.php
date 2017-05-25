@@ -15,11 +15,11 @@
         
         
         <div class="w3-container w3-orange w3-text-white w3-center"><h2>Artisti</h2></div>
-        <div class="w3-row w3-blue padded5">
-            <div class="w3-third">Cerca Artista:</div>
-            <div class="w3-twothird">
+        <div class="w3-row w3-blue padded10">
+            <div class="w3-col s4"><h5><b>Cerca:</b></h5></div>
+            <div class="w3-col s8">
                 <form>
-                    <input type="text" class="w3-input" size="30" onkeyup="showResult(this.value)">
+                    <input type="text" class="w3-input w3-round" onkeyup="showResult(this.value)">
                     <div id="livesearch"></div>
                 </form>
             </div>

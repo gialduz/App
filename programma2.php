@@ -98,8 +98,7 @@
         </div>
     
         <div id="infoFiltroAttivo" class="w3-container w3-white w3-text-purple w3-center" style="display:none;">
-            <h6>Sono attivi dei filtri di ricerca </h6> 
-            <span class="resetFiltri w3-purple padded10 w3-round">Cancella filtri <i class="fa fa-times" aria-hidden="true"></i> </span>
+            <h6>Sono attivi dei filtri di ricerca <span class="resetFiltri w3-purple padded5 w3-round">Cancella filtri</span></h6>
         </div>
         
         
@@ -202,9 +201,6 @@
                     $('#wrapIstanze').empty();
                     
                     giorno = $(this).prop("id");
-                    sessionStorage["ultimoGiorno"]= giorno;
-                    //alert(localStorage["ultimoGiorno"]);
-                    
                     var myTipoEvento =JSON.parse(localStorage.getItem("tipoEvento"));
                     
                     $('#wrapIstanze').append($('<div>').load('programmaGiorno.php?giorno='+giorno+"&eta="+ localStorage["eta"]+"&famiglia="+ localStorage["famiglia"]+"&scuola="+ localStorage["scuola"]+"&gratuito="+ localStorage["gratuito"]+"&luogo="+ localStorage["luogo"]+"&tipoevento="+ myTipoEvento));
@@ -222,14 +218,11 @@
                     if(j<listaDate.length){
                         //$('#wrapIstanze').append("<h2 class='w3-orange'>"+listaDate[j]+"</h2>");
                         $('#wrapIstanze').append($('<div class="paginaIstanzeGiorno">').load('programmaGiorno.php?giorno='+listaDate[j]+"&eta="+ localStorage["eta"]+"&famiglia="+ localStorage["famiglia"]+"&scuola="+ localStorage["scuola"]+"&gratuito="+ localStorage["gratuito"]+"&luogo="+ localStorage["luogo"]+"&tipoevento="+ myTipoEvento));
-                        
+                        j++;
                    }
                     if(j==listaDate.length){
-                        $("body").append("<div id='fineElencoIstanzeTutto' class='w3-text-white'> FINE ELENCO </div> ")
                         $("#caricamento").delay(500).hide(0);
                    }
-                    
-                    j++;
                     
                     
                 }
@@ -248,10 +241,6 @@
                 //MOSTRA TUTTO
                 $(".showAll").click(function(){
                     modalitaTutto=1;
-                    
-                    sessionStorage["ultimoGiorno"]= 0;
-                    //alert(localStorage["ultimoGiorno"]);
-                    
                     $("#"+giorno).removeClass("w3-orange");
                     $(".dataBtn").show();
                     $('#wrapIstanze').empty();
@@ -312,12 +301,18 @@
                     
                 });
                 
-                            //localStorage.removeItem("tipoEvento");
+                //GESTIONE PREFERITI PROSSIMO ANNO
+                //localStorage["quandoHoCancellato"] = 2016;
+                
+                /*if(localStorage.getItem("quandoHoCancellato") == 2016){
+                            localStorage.removeItem("tipoEvento");
+                            localStorage["quandoHoCancellato"] = 2017;
+                }*/
 
                 
                 //INIT array Filtri
                 if(localStorage.getItem("tipoEvento") == null) {
-                    //alert("pippo");
+                    alert("pippo");
                     var myTipoEvento= [];
                     myTipoEvento[0] = 0; myTipoEvento[1] = 0; myTipoEvento[2] = 0; myTipoEvento[3] = 0; myTipoEvento[4] = 0;
                     localStorage["tipoEvento"] = JSON.stringify(myTipoEvento);
@@ -388,11 +383,10 @@
                     if($("#filtraScuola").hasClass("w3-blue")) {localStorage["scuola"] = 1;} else {localStorage["scuola"] = 0;}
                     if($("#filtraGratuito").hasClass("w3-green")) {localStorage["gratuito"] = 1;} else {localStorage["gratuito"] = 0;}
                     
-                    sessionStorage.clear();
                     window.location.reload("programma.html");
                 });
                 
-                //reset
+                
                 $(".resetFiltri").click(function(){
                     var myTipoEvento= [];
                     myTipoEvento[0] = 0; myTipoEvento[1] = 0; myTipoEvento[2] = 0; myTipoEvento[3] = 0; myTipoEvento[4] = 0;
@@ -404,12 +398,8 @@
                     localStorage["luogo"] = 0;
                     
                     $("#overlayFilter").hide();
-                    
-                    sessionStorage.clear();
                     window.location.reload("programma.html");
                 });
-                
-                
                 
             });
 

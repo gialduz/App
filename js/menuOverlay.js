@@ -94,7 +94,21 @@
                                         '<h6 style="margin:0px;">Preferiti <i class="fa fa-heart"></i><h6>'+
                                     '</div>'+
                                 '</a>'+
+                                /*
+                                //lista Eventi
+                                '<a href="listaEventi.html">'+
+                                    '<div class="w3-col l12 s6 w3-black padded10">'+
+                                        '<h6 style="margin:0px;">EVENTI<h6>'+
+                                    '</div>'+
+                                '</a>'+
         
+                                //lista Eventi
+                                '<a href="programma2.html">'+
+                                    '<div class="w3-col l12 s6 w3-white padded10">'+
+                                        '<h6 style="margin:0px;">Prog2<h6>'+
+                                    '</div>'+
+                                '</a>'+
+                                */
                             '</div>'+
         
         

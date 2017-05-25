@@ -128,9 +128,9 @@ require 'funzioniMappeLuoghi.php';
         return  "<div class='l12 w3-justify'>"
                     ."<p>" . $ita . "</p>"
                 ."</div>"
-                ."<div class='l12 w3-center padded5 w3-leftbar w3-light-blue w3-border-blue'>"
+                /*."<div class='l12 w3-center padded5 w3-leftbar w3-light-blue w3-border-blue'>"
                     ."<p>" . $eng . "</p>"
-                ."</div>";
+                ."</div>"*/;
         $stmt->close();
     }
     
@@ -143,8 +143,8 @@ require 'funzioniMappeLuoghi.php';
         $stmt->fetch();
         
         return  "<div class='w3-row'>"
-                    ."<div class='w3-col w3-text-purple s9 cappato w3-round w3-center'>"
-                        ."<a href='dettaglioLuogo.html?q=".$id."'><h4><b>" .$nome. "</b><h4></a>"
+                    ."<div class='w3-col w3-text-purple s9 cappato w3-round'>"
+                        ."<a href='dettaglioLuogo.html?q=".$id."'><span style='font-size:24px'><b>" .$nome. "</b></span></a>"
                     ."</div>"
                     ."<div class='w3-col s3 '>"
                         ."<h6><button class='w3-button w3-block dark-green w3-hover-green w3-round mostraMappa'><i class='fa fa-map-marker' aria-hidden='true'></i> Map</button></h6>"
@@ -171,7 +171,7 @@ require 'funzioniMappeLuoghi.php';
         return $daRitornare;
     }
 
-    function stampaBadgeQuando($numeroEvento) {
+    /*function stampaBadgeQuando($numeroEvento) {
         require 'php/configurazione.php';
         require 'php/connessione.php';
         $stmt = $conn->prepare("SELECT eld.data_ora, eld.speciale FROM eventoLuogoData AS eld WHERE eld.id_evento = ? ORDER BY eld.data_ora");
@@ -206,7 +206,7 @@ require 'funzioniMappeLuoghi.php';
             $ultimoGiornoNumero= soloGiorno(soloData($data_ora));            
         }
         return $daRitornare. "</div><br>";
-    }
+    }*/
 
     function stampaBadgeQuando2($numeroEvento) {
         require 'php/configurazione.php';
@@ -249,10 +249,10 @@ require 'funzioniMappeLuoghi.php';
         $stellaRossa= "<div class='fa fa-star-o w3-red w3-text-white' aria-hidden='true' style='padding:1px;'></div>";
         $dataSQL= $giorno."%";
         
-        $stmt = $conn->prepare("SELECT eld.data_ora, eld.speciale FROM eventoLuogoData AS eld WHERE (eld.id_evento = ? AND eld.data_ora LIKE ?) ORDER BY eld.data_ora");
+        $stmt = $conn->prepare("SELECT eld.data_ora, eld.speciale, eld.esaurito FROM eventoLuogoData AS eld WHERE (eld.id_evento = ? AND eld.data_ora LIKE ?) ORDER BY eld.data_ora");
         $stmt->bind_param("is", $numeroEvento, $dataSQL);
         $stmt->execute();
-        $stmt->bind_result($data_ora, $speciale);
+        $stmt->bind_result($data_ora, $speciale, $esaurito);
         
         $daRitornare.= "<div class='w3-col m2 s3'>";
         $daRitornare.='<div class="badge w3-food-salmon">'
@@ -260,11 +260,21 @@ require 'funzioniMappeLuoghi.php';
                             . "<p>". substr (giornoIta(date('l', strtotime($giorno))), 0,3) ."</p>"
                         .'</div>';
         
-        $daRitornare.=      "<div class='badgeCaption'>";
+        $daRitornare.=      "<div class='badgeCaption'>  ";
         
         while($stmt->fetch()) {
-            if(!$speciale) $daRitornare.= "<span>" .soloOra($data_ora). "</span><br>";
-            else $daRitornare.= "<span class='w3-text-red'>".soloOra($data_ora)." ".$stellaRossa."</span><br>";
+            //spazio tra orari
+            $daRitornare.= "<hr style='visibility:hidden; margin:5px 0 0 0;' />";
+            if(!$speciale) {
+                if($esaurito) $daRitornare.="<del>";
+                $daRitornare.= "<span>" .soloOra($data_ora). "</span><br>";
+                if($esaurito) $daRitornare.="</del>";
+
+            } else {
+                if($esaurito) $daRitornare.="<del>";
+                $daRitornare.= "<span class='w3-text-red'>".soloOra($data_ora)." ".$stellaRossa."</span><br>";
+                if($esaurito) $daRitornare.="</del>";
+            } 
         }
         $daRitornare.=      "</div>";
 
@@ -279,7 +289,7 @@ require 'funzioniMappeLuoghi.php';
         require 'php/configurazione.php';
         require 'php/connessione.php';
 
-        $sql = "SELECT E.eta_min, E.eta_max, E.ticket, E.durata, te.nome AS tipo, L.lettera, L.colore AS doveLettera FROM (((Evento AS E INNER JOIN eventoLuogoData AS eld ON E.id = eld.id_evento) INNER JOIN Luogo AS L ON L.id = E.luogo) INNER JOIN tipologiaEvento AS te ON E.tipologia = te.id) WHERE E.id = ?";
+        $sql = "SELECT E.eta_min, E.eta_max, E.ticket, E.durata, te.nome AS tipo, L.lettera, L.colore AS doveLettera FROM ((Evento AS E INNER JOIN Luogo AS L ON L.id = E.luogo) INNER JOIN tipologiaEvento AS te ON E.tipologia = te.id) WHERE E.id = ?";
 
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $numeroEvento);

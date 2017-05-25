@@ -1,10 +1,24 @@
-body{font-size:14px;}
+body{font-size:16px;}
 #corpo{background-color: white;}
 div#spazioBarra{min-height: 75px;}
 
 
 .itemBadge > p{ margin: 0; padding-top: 8px;}
 @media (max-width: 560px) {.itemBadge > p{ padding-top: 6px;}}
+
+.biancoenero {
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+}
+
+.boxTipoEventoFiltroSelected{
+    -webkit-box-shadow: 0px 0px 0px 5px #ff9800;
+    -moz-box-shadow: 0px 0px 0px 5px #ff9800;
+    box-shadow: 0px 0px 0px 5px #ff9800;
+    border-radius: 4px;
+}
+
+
 
 
 
@@ -47,23 +61,6 @@ div#spazioBarra{min-height: 75px;}
     color: white;
 }
 
-.itemFasciaEta {
-    /*width: 10%;
-    min-width: 50px;
-    float: left;*/
-}
-
-.itemNomeEvento {
-    /*width: 65%;
-    min-width: 200px;
-    float: left;*/
-}
-
-.itemBadge {
-    /*width: 25%;
-    min-width: 150px;
-    float: left;*/
-}
 
 .inclinata {
     transform: skew(-20deg, 0deg);
@@ -76,6 +73,7 @@ div#spazioBarra{min-height: 75px;}
 .padded5{padding: 5px;}
 .padded10{padding: 10px;}
 .padded10lr{padding-left: 10px; padding-right: 10px;}
+.padded10l{padding-left: 10px;}
 .padded10tb{padding-top: 10px; padding-bottom: 10px;}
 
 
@@ -105,12 +103,14 @@ th, td{
 
 
 /*BADGE*/
-.badge{width: 50px; height:50px; padding:0; display:table-cell; vertical-align:middle; text-align:center; margin:0 auto}
-.badge h1{font-size: 20px; font-weight: 800; margin:0; padding:0}
-.badge p{font-size: 13px; margin:0; padding:0}
-.badgeContainer{text-align: center; width: 50px; float: left;}
-.badgeContainer span{font-size: 10px; margin:0; padding:0; text-transform: uppercase;}
-.badgeCaption span{font-size: 10px; margin:0; padding:0; text-transform: uppercase;}
+.badge75resp{max-width: 75px; width:100%; max-height: 75px; height: auto; padding:0; margin:0;}
+.badge{width: 75px; height: 75px; padding:0; display:table-cell; vertical-align:middle; text-align:center;}
+.badge h1{font-size: 30px; font-weight: 800; margin:0; padding:0}
+.badge p{font-size: 18px; margin:0; padding:0}
+.badgeContainer{text-align: center; width: 75px;}
+.badgeContainer span{font-size: 15px; margin:0; padding:0; text-transform: uppercase;}
+.badgeCaption > span, .badgeCaption > del > span{font-size: 15px; margin:0; padding:0; text-transform: uppercase;}
+
 
 .spazioBadge{width:10px; height: 75px; float:left;}
 
@@ -150,6 +150,9 @@ a:active {
 #menuContent{width:320px; height:80vh; min-height:320px; background:#333333; margin:0 auto; margin-top:10vh;}
 @media (max-height: 480px) {#menuContent{margin-top: 10px; height:90vh;}}
 @media (max-height: 360px) {#menuContent{margin: 0 auto;}}
+
+#overlayFilter {background-color: rgba(0,0,0,0.6); position: absolute; left:0; top: 0; width:100%; height:1000px; z-index: 150;}
+
 
 .blur-filter {
     -webkit-filter: blur(2px);

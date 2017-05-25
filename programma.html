@@ -24,45 +24,127 @@
     <div id="spazioBarra"></div>
         
     <div class="w3-row w3-center padded10">
-        <div id="programmaBtn" class="w3-purple w3-col s6"><h4>Programma</h4></div>
-        <div id="eventiBtn" class="w3-orange w3-col s6"><h4>Eventi</h4></div>
+        <div id="programmaBtn" class="w3-purple w3-col s6 w3-round"><h4>Programma</h4></div>
+        <div id="eventiBtn" class="w3-orange w3-col s6 w3-round"><h4>Eventi</h4></div>
     </div>
     
     <div id="corpo">
     </div>
     
     <script>
+        /*var url = window.location.href; 
+        var hash = url.split('#')[1];
+        alert(hash);
+            
+            var modalitaProgramma=hash;*/
             
             //on document.READY()
             $(document).ready(function(){
-                            
-                $.ajax({
-                   url: "programma.php",
-                   success: function(data){
-                     $("#corpo").append(data);
-                   }
-                 });
                 
+                //localStorage.removeItem("ultimoGiorno");
+                //sessionStorage.removeItem("ultimaPagina");
+                //sessionStorage.removeItem("ultimaIstanza");
+                //localStorage.removeItem("ultimoEvento");
                 
+                if(sessionStorage["ultimaPagina"] == null){ sessionStorage["ultimaPagina"]= "programma"; }
                 $("#programmaBtn").click(function(){
+                    $(this).parent().css("background-color","#af1280");
                     $("#corpo").empty();
                     $.ajax({
                         url: "programma.php",
                         success: function(data){
                             $("#corpo").append(data);
+                            sessionStorage["ultimaPagina"]= "programma";
+                            sessionStorage["ultimoEvento"]= null
+                            //alert(localStorage["ultimaPagina"]);
                         }
                     });
                 });
                 
                 $("#eventiBtn").click(function(){
+                    $(this).parent().css("background-color","#f8a600");
                     $("#corpo").empty();
                     $.ajax({
-                        url: "listaEventi.php",
+                        url: "listaEventi.php?"+"eta="+ localStorage["eta"]+"&famiglia="+ localStorage["famiglia"]+"&scuola="+ localStorage["scuola"]+"&gratuito="+ localStorage["gratuito"]+"&luogo="+ localStorage["luogo"]+"&tipoevento="+ JSON.parse(localStorage.getItem("tipoEvento")),
                         success: function(data){
                             $("#corpo").append(data);
+                            sessionStorage["ultimaPagina"]= "eventi";
+                            sessionStorage["ultimaIstanza"]= "null";
+                            //alert(localStorage["ultimaPagina"]);
                         }
                     });
                 });
+                
+                
+                //verifica sessione (ultima cosa cliccata)
+                
+                //alert(localStorage["ultimaPagina"]);
+                if(sessionStorage["ultimaPagina"] == "programma"){
+                    $("#programmaBtn").trigger("click");
+                    
+                    if(sessionStorage["ultimoGiorno"] == 0){
+                        
+                        if(sessionStorage["ultimaIstanza"] != "null") {
+                            //alert("pippo, scorrere giu");
+                            setTimeout(function() {
+                                $(".showAll").trigger("click");
+                                //alert("tutto");
+                            }, 250);
+
+
+
+                            var caricaAncora = setInterval(function() {
+
+                                //if( $("#fineElencoIstanzeTutto").is(":visible") ) {alert("fine pag");};
+
+                                if(! $("#fineElencoIstanzeTutto").is(":visible")) {
+                                    $("html, body").animate({ scrollTop: $(document).height()-35 }, 250);
+
+                                    if($('#ist'+sessionStorage["ultimaIstanza"]).length) {
+                                        clearInterval(caricaAncora);
+                                        $("html, body").animate({ scrollTop: $("#ist"+sessionStorage['ultimaIstanza']).offset().top -75 }, 250);
+                                        //alert("istanza trovata!");  
+                                    }
+                                }
+
+                                if($("#fineElencoIstanzeTutto").is(":visible") && !($('#ist'+sessionStorage["ultimaIstanza"]).length)) {
+                                    clearInterval(caricaAncora);
+                                    setTimeout(function() {
+                                        $("html, body").animate({ scrollTop: 0 }, 250);
+                                    }, 251);
+                                    $("#fineElencoIstanzeTutto").hide();
+                                }
+                            }, 250);
+                        }
+                    }else{
+                        setTimeout(function() {
+                            //alert(localStorage["ultimoGiorno"]);
+                            $("button#"+sessionStorage["ultimoGiorno"]).trigger("click");
+                        }, 250);
+
+                        setTimeout(function() {
+                            //alert(localStorage["ultimoGiorno"]);
+                            $('html, body').animate({
+                                scrollTop: ($("#ist"+sessionStorage["ultimaIstanza"]).offset().top) - 75
+                            }, 250);
+                        }, 1000);
+                    }
+                    
+                }
+                
+                if(sessionStorage["ultimaPagina"] == "eventi"){ 
+                    $("#eventiBtn").trigger("click");
+                    
+                    //alert(localStorage['ultimoEvento']);
+                    
+                    setTimeout(function() {
+                        //alert(localStorage["ultimoGiorno"]);
+                        $('html, body').animate({
+                            scrollTop: ($("#evLista"+sessionStorage['ultimoEvento']).offset().top) - 75
+                        }, 250);
+                    }, 1000);
+                    
+                }
                 
                 
             });

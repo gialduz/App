@@ -41,12 +41,12 @@
         $listaIstanzeStringa = str_replace("]","", $listaIstanzeStringa);
         $listaIstanzeStringa = str_replace(",",", ", $listaIstanzeStringa);
 
-        $sql = "SELECT E.nome, E.id, E.eta_min, E.eta_max, E.durata, E.ticket, eld.id_istanza, eld.data_ora, L.nome, tE.nome, E.speciale_ragazzi, eld.speciale FROM (((Evento AS E INNER JOIN tipologiaEvento AS tE ON E.tipologia=tE.id) INNER JOIN eventoLuogoData AS eld ON E.id=eld.id_evento) INNER JOIN Luogo AS L ON L.id=E.luogo ) WHERE (eld.data_ora LIKE ? AND id_istanza IN ( ".$listaIstanzeStringa." )) ORDER BY data_ora, id_evento;";
+        $sql = "SELECT E.nome, E.id, E.eta_min, E.eta_max, E.durata, E.ticket, eld.id_istanza, eld.data_ora, L.nome, tE.nome, E.speciale_ragazzi, eld.speciale, eld.esaurito FROM (((Evento AS E INNER JOIN tipologiaEvento AS tE ON E.tipologia=tE.id) INNER JOIN eventoLuogoData AS eld ON E.id=eld.id_evento) INNER JOIN Luogo AS L ON L.id=E.luogo ) WHERE (eld.data_ora LIKE ? AND id_istanza IN ( ".$listaIstanzeStringa." )) ORDER BY data_ora, id_evento;";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $giornoSQL);
 
         $stmt->execute();
-        $stmt->bind_result($nomeEvento, $id_evento, $eta_min, $eta_max, $durata, $ticket, $id_istanza, $data_ora, $dove, $tipo_evento, $speciale_ragazzi, $speciale);
+        $stmt->bind_result($nomeEvento, $id_evento, $eta_min, $eta_max, $durata, $ticket, $id_istanza, $data_ora, $dove, $tipo_evento, $speciale_ragazzi, $speciale, $esaurito);
 
         $primoGiro=1;
         while($stmt->fetch()) { 
@@ -55,7 +55,7 @@
                 $primoGiro=0;
             }
 
-            $daRitornare.= stampaIstanza($nomeEvento, $id_evento, $eta_min, $eta_max, $durata, $ticket, soloData($data_ora), soloOra($data_ora), $id_istanza, $dove, $tipo_evento, $speciale_ragazzi, $speciale);
+            $daRitornare.= stampaIstanza($nomeEvento, $id_evento, $eta_min, $eta_max, $durata, $ticket, soloData($data_ora), soloOra($data_ora), $id_istanza, $dove, $tipo_evento, $speciale_ragazzi, $speciale, $esaurito);
             
             $daRitornare.="<script>".
             '$("#ist'.$id_istanza.'").click(function(event) {
@@ -113,7 +113,12 @@
         return $daRitornare;
     }
 
-    function stampaIstanza($nomeEvento, $numeroEvento, $eta_min, $eta_max, $durata, $ticket, $data, $orario, $id_istanza, $dove, $tipo_evento, $speciale_ragazzi, $speciale) {
+    function stampaIstanza($nomeEvento, $numeroEvento, $eta_min, $eta_max, $durata, $ticket, $data, $orario, $id_istanza, $dove, $tipo_evento, $speciale_ragazzi, $speciale, $esaurito) {
+        
+        if($speciale) {
+            $stellaRossa= "<div class='fa fa-star-o w3-red w3-text-white' aria-hidden='true' style='padding:1px;'></div>";
+            $nomeEvento= "<span class='w3-text-red'>" .$stellaRossa." ". $nomeEvento. "</span>";
+        }
 
 
         $daRitornare.= "<div id='ist".$id_istanza."' class='istanzaEvento w3-row w3-padding'>" 
@@ -123,7 +128,7 @@
                                         .$eta_min."-".$eta_max. "<br>anni"
                                     ."</div>"
                                     ."<div class='w3-col s8 padded10lr'>"
-                                        ."<b>" . $nomeEvento . "</b>"
+                                        .checkEsaurito($esaurito)."<b>" . $nomeEvento . "</b>"
                                     ."</div>"
                                     ."<div id='prefBtn".$id_istanza."' class='w3-col s2 w3-center padded5' style='color:lightgrey'>"
                                         .'<i class="fa fa-heart fa-3x" aria-hidden="true" ></i>'
@@ -155,6 +160,13 @@
 
         return $daRitornare;
     }
+    
+    
+    function checkEsaurito($esaurito){
+        if($esaurito) return "<span class='w3-purple padded5 w3-round' style='margin: 0 8px 0 0'>Esaurito</span>";
+        return "";
+    }
+    
     
     function stampaItemBadge($tipo_evento, $durata, $ticket, $speciale_ragazzi, $speciale, $id_istanza) {
         
