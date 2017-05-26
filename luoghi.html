@@ -17,57 +17,23 @@
 <body style="max-width:640px; margin:0 auto;">
     <script src="js/menuOverlay.js"></script>
     <script src="js/menuBar.js"></script>
-    <div id="spazioBarra"></div>
-    
-    <div class="w3-row w3-center padded10">
-            <div id="luoghiBtn" class="w3-blue w3-col s6 w3-round"><h4>Luoghi</h4></div>
-            <div id="ristoroBtn" class="w3-green w3-col s6 w3-round"><h4>Ristoro</h4></div>
-        </div>
-        
     
     <div id="corpo">
+        <div id="spazioBarra"></div>
+        
+        
     </div>
     
     <script>
        //on document.READY()
         $(document).ready(function(){
-/*
+
             $.ajax({
-               url: "http://testr.altervista.org/filezdellapp/luoghi.php",
+               url: "luoghi.php",
                success: function(data){
                  $("#corpo").append(data);
                }
              });
-  */         
-            //inizializza luogo
-            if(localStorage["modalitaLuogo"]== null) localStorage["modalitaLuogo"] =1;
-            
-            $("#luoghiBtn").click(function(){
-                localStorage["modalitaLuogo"] = 1;
-                $(this).parent().css("background-color","#009fe3");
-                $("#corpo").empty();
-                $.ajax({
-                    url: "http://testr.altervista.org/filezdellapp/luoghi.php",
-                    success: function(data){
-                        $("#corpo").append(data);
-                    }
-                });
-            });
-            
-            $("#ristoroBtn").click(function(){
-                localStorage["modalitaLuogo"] = 2;
-                $(this).parent().css("background-color","#95c11f");
-                $("#corpo").empty();
-                $.ajax({
-                    url: "http://testr.altervista.org/filezdellapp/ristoro.php",
-                    success: function(data){
-                        $("#corpo").append(data);
-                    }
-                });
-            });
-            
-            if(localStorage["modalitaLuogo"] == 1) $("#luoghiBtn").trigger("click");
-            if(localStorage["modalitaLuogo"] == 2) $("#ristoroBtn").trigger("click");
 
         });
 

@@ -10,14 +10,13 @@
 </head>
 
 <body style="max-width:640px; margin:0 auto;">
-        <?php header('Access-Control-Allow-Origin: *'); ?>
+    
         
         <div class="w3-container w3-blue w3-center">
         <h2>Luoghi</h2>
         </div>
 
         <?php
-    
 
         include 'php/mieFunzioni.php';
         require 'php/configurazione.php';// richiamo il file di configurazione

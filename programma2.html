@@ -12,28 +12,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
     <script src="js/jquery.js"></script>
     
+    <!-- GROWL (popups carini, leggeri, cross-browser) -->
+    <script src="js/jquery.growl.js" type="text/javascript"></script>
+    <link href="css/jquery.growl.css" rel="stylesheet" type="text/css" />
+    
 </head>
 
 <body style="max-width:640px; margin:0 auto;">
     <script src="js/menuOverlay.js"></script>
     <script src="js/menuBar.js"></script>
     <div id="spazioBarra"></div>
+
     
-    <div id="corpo"></div>
+    <div id="corpo">
+    </div>
     
     <script>
-        //on document.READY()
-        $(document).ready(function(){
-
-            $.ajax({
-                url: "listaEventi.php?"+"eta="+ localStorage["eta"]+"&famiglia="+ localStorage["famiglia"]+"&scuola="+ localStorage["scuola"]+"&gratuito="+ localStorage["gratuito"]+"&luogo="+ localStorage["luogo"]+"&tipoevento="+ JSON.parse(localStorage.getItem("tipoEvento")),
-                //url: "listaEventi.php",
-                success: function(data){
-                    $("#corpo").append(data);
-                }
+            //on document.READY()
+            $(document).ready(function(){
+                $.ajax({
+                   url: "programma2.php",
+                   success: function(data){
+                     $("#corpo").append(data);
+                   }
+                });
             });
-        });
-    </script>
+                        
+
+        </script>
     
         
         

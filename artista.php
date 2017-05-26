@@ -20,8 +20,6 @@
         <div class="w3-row w3-pale-yellow">
             
             <?php
-            header('Access-Control-Allow-Origin: *');
-            
                 include 'php/mieFunzioni.php';
                 $id_artista= $_GET["id"];
                 function stampaDettaglioArtista($id_artista) {
@@ -43,7 +41,7 @@
 
                             <div class="w3-text-grey w3-center">
                                 <div class="w3-display-container">
-                                    <img src="http://testr.altervista.org/filezdellapp/img/'.$foto.'" style="width:100%">
+                                    <img src="img/'.$foto.'" style="width:100%">
                                 </div>
                                 <div class="padded10">
                                     <div class="w3-white">

@@ -17,8 +17,6 @@
         <div class="w3-row w3-pale-blue">
             
             <?php
-            header('Access-Control-Allow-Origin: *');
-            
                 include 'php/mieFunzioni.php';
                 $id_luogo= $_GET["q"];
                 function stampaDettaglioLuogo($id_luogo) {
@@ -39,12 +37,12 @@
                         <div class="w3-third">
 
                             <div class="w3-text-grey">
-                                <div class="w3-container">
-                                    <img src="http://testr.altervista.org/filezdellapp/'.$foto.'" style="width:100%" alt="Nessuna immagine del luogo">
+                                <div class="w3-display-container">
+                                    <img src="'.$foto.'" style="width:100%" alt="Nessuna immagine del luogo">
                                 </div>
                                 <div class="padded10 w3-white w3-center">
                                     <a href="http://maps.apple.com/?q='.$nome.'&daddr='.$latitudine.', '.$longitudine.'&dirflg=w" target="_blank">
-                                        <button class="w3-button w3-green w3-round-xxlarge">
+                                        <button class="w3-button w3-green w3-hover-orange w3-round-xxlarge">
                                             Portami qui! <i class="fa fa-location-arrow" aria-hidden="true"></i>
                                         </button>
                                     </a>

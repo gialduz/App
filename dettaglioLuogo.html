@@ -25,7 +25,7 @@
                     var idLuogo= window.location.href.split('q=')[1];
 
                     $.ajax({
-                       url: "http://testr.altervista.org/filezdellapp/dettaglioLuogo.php?q="+idLuogo,
+                       url: "dettaglioLuogo.php?q="+idLuogo,
                        success: function(data){
                          $("#corpo").append(data);
                        }

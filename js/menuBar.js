@@ -29,7 +29,7 @@
         '<div id="logoBox" class="w3-center" style="height:100%; float:left">'+
             '<img src="img/logo.png" style="height:100%;">'+
         '</div>'+
-        '<a href="index.html">   <div id="homeBox" style="height:100%; float:right" class="w3-button w3-dark-grey w3-hover-dark-grey w3-text-white w3-hover-text-orange w3-large">'+
+        '<a href="home.html">   <div id="homeBox" style="height:100%; float:right" class="w3-button w3-dark-grey w3-hover-dark-grey w3-text-white w3-hover-text-orange w3-large">'+
             '<i class="fa fa-home fa-3x" aria-hidden="true" style="float:right;"></i>'+
         '</div>     </a>'+
     '</div>';

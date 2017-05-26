@@ -26,10 +26,11 @@
             
         //on document.READY()
         $(document).ready(function(){
+            //$("body").append($('<div class="paginaPiAccaPi">').load('home.html'));
             var idArtista= window.location.href.split('id=')[1];
 
             $.ajax({
-               url: "http://testr.altervista.org/filezdellapp/artista.php?id="+idArtista,
+               url: "artista.php?id="+idArtista,
                success: function(data){
                  $("#corpo").append(data);
                }

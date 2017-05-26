@@ -27,9 +27,6 @@
         
         <div class="w3-container w3-pale-yellow"><h5>Elenco artisti completo:</h5>
             <?php
-            
-            header('Access-Control-Allow-Origin: *');
-            
             include 'php/mieFunzioni.php';
 
             function stampaElencoArtisti() {
@@ -49,15 +46,13 @@
                 return $daRitornare;
             }
             function stampaArtista($id, $nome, $cognome, $alt_name, $foto) {
-                $foto= "http://testr.altervista.org/filezdellapp/".$foto;
-                
                 $daRitornare= "<a href='artista.html?id=".$id."'>"
                     ."<div class='w3-row w3-hover-grey'>"
                         ."<div class='w3-col s2 w3-center'>"
                                 .'<div class="imgQuadrataArtista w3-circle" style="background-image: url('.$foto.');"></div>'
                         ."</div>"
                         ."<div class='w3-col s10'>"
-                                .$cognome." ".$nome. "<i style='color:grey'>".$alt_name."</i>"
+                                .$nome." ".$cognome." <i style='color:grey'>".$alt_name."</i>"
                         ."</div>"
                     ."</div>"
                     ."</a>";
@@ -87,7 +82,7 @@
                             document.getElementById("livesearch").style.border = "1px solid #A5ACB2";
                         }
                     }
-                    xmlhttp.open("GET", "http://testr.altervista.org/filezdellapp/php/livesearch.php?q=" + str, true);
+                    xmlhttp.open("GET", "php/livesearch.php?q=" + str, true);
                     xmlhttp.send();
                 }
             </script>

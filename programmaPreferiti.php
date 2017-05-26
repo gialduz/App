@@ -5,12 +5,21 @@
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     
-    <?php header('Access-Control-Allow-Origin: *'); ?>
+    <title>Programma - Segni d'Infanzia</title>
+    
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/stile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    <script src="js/jquery.js"></script>
     
 </head>
 
 <body style="max-width:640px; margin:0 auto;">
+    <script src="js/menuOverlay.js"></script>
+    <script src="js/menuBar.js"></script>
+    
     <div id="corpo">
+        <div id="spazioBarra"></div>
         
         
         
@@ -25,7 +34,6 @@
         <div id='rigaBtn' class="w3-row">
         
         <?php
-            
         include 'php/mieFunzioni.php';
         require 'php/configurazione.php';// richiamo il file di configurazione
         require 'php/connessione.php';// richiamo lo script responsabile della connessione a MySQL
@@ -119,7 +127,7 @@
                     $('#wrapIstanze').empty();
                     
                     giorno = $(this).prop("id");
-                    $('#wrapIstanze').append($('<div>').load('http://testr.altervista.org/filezdellapp/programmaGiornoPreferiti.php?giorno=' + giorno, {
+                    $('#wrapIstanze').append($('<div>').load('programmaGiornoPreferiti.php?giorno=' + giorno, {
                        arrayIstanze: istanzePreferiteDaColorare
                    }));
                     
@@ -135,7 +143,7 @@
                 function stampaProssimoGiorno(){
                     if(j<listaDate.length){
                         //$('#wrapIstanze').append("<h2 class='w3-orange'>"+listaDate[j]+"</h2>");
-                        $('#wrapIstanze').append($('<div class="paginaIstanzeGiorno">').load('http://testr.altervista.org/filezdellapp/programmaGiornoPreferiti.php?giorno='+listaDate[j], {
+                        $('#wrapIstanze').append($('<div class="paginaIstanzeGiorno">').load('programmaGiornoPreferiti.php?giorno='+listaDate[j], {
                            arrayIstanze: istanzePreferiteDaColorare
                         }));
                         
@@ -155,8 +163,13 @@
                 }
                 
                 function initWrapTutto(){
+                    if($(window).height() >= $("body").height()-10 ) {
                         stampaProssimoGiorno();
-                        setTimeout(function(){ initWrapTutto(); }, 50);
+                        
+                        setTimeout(function(){ initWrapTutto(); }, 100);
+                        //delay premette corretto calcolo distanze/altezze -testato con 50 va, con 100 non disturba
+                        
+                    };
                 }
                 
                 

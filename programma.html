@@ -51,7 +51,7 @@
                     $(this).parent().css("background-color","#af1280");
                     $("#corpo").empty();
                     $.ajax({
-                        url: "http://testr.altervista.org/filezdellapp/programma.php",
+                        url: "programma.php",
                         success: function(data){
                             $("#corpo").append(data);
                             sessionStorage["ultimaPagina"]= "programma";
@@ -65,7 +65,7 @@
                     $(this).parent().css("background-color","#f8a600");
                     $("#corpo").empty();
                     $.ajax({
-                        url: "http://testr.altervista.org/filezdellapp/listaEventi.php?"+"eta="+ localStorage["eta"]+"&famiglia="+ localStorage["famiglia"]+"&scuola="+ localStorage["scuola"]+"&gratuito="+ localStorage["gratuito"]+"&luogo="+ localStorage["luogo"]+"&tipoevento="+ JSON.parse(localStorage.getItem("tipoEvento")),
+                        url: "listaEventi.php?"+"eta="+ localStorage["eta"]+"&famiglia="+ localStorage["famiglia"]+"&scuola="+ localStorage["scuola"]+"&gratuito="+ localStorage["gratuito"]+"&luogo="+ localStorage["luogo"]+"&tipoevento="+ JSON.parse(localStorage.getItem("tipoEvento")),
                         success: function(data){
                             $("#corpo").append(data);
                             sessionStorage["ultimaPagina"]= "eventi";

@@ -17,7 +17,7 @@
                 document.getElementById("livesearchMenu").style.border = "1px solid #A5ACB2";
             }
         }
-        xmlhttp.open("GET", "http://testr.altervista.org/filezdellapp/php/eventLivesearch.php?q=" + str, true);
+        xmlhttp.open("GET", "php/eventLivesearch.php?q=" + str, true);
         xmlhttp.send();
     }
 
@@ -41,7 +41,7 @@
                         '</div>';
 
 // H: 80+ 480 +80 = 640 min centrato
-    var menuOverlay= "<div id='overlay'>"+
+    var menuOverlay= "<div id='overlay' >"+
                         "<div id='menuContent' style=''>"+
         
                             //header menu
@@ -62,8 +62,8 @@
         
                                 //programma
                                 '<a href="programma.html">'+
-                                    '<div class="w3-col l12 m6 w3-purple padded10">'+
-                                        '<h6 style="margin:0px;">PROGRAMMA<h6>'+
+                                    '<div class="w3-col l12 w3-purple padded10">'+
+                                        '<h6 style="margin:0px;">PROGRAMMA 2017<h6>'+
                                     '</div>'+
                                 '</a>'+
                                 
@@ -89,19 +89,19 @@
                                 '</a>'+
         
                                 //preferiti
-                                '<a href="preferiti.html">'+
+                                '<a href="programmaPreferiti.php">'+
                                     '<div class="w3-col l12 s6 w3-red padded10">'+
                                         '<h6 style="margin:0px;">Preferiti <i class="fa fa-heart"></i><h6>'+
                                     '</div>'+
                                 '</a>'+
-                                
-                                //sponsor
-                                '<a href="sponsor.html">'+
-                                    '<div class="w3-col l12 s6 w3-lime padded10">'+
-                                        '<h6 style="margin:0px;">Sponsor?<h6>'+
+                                /*
+                                //lista Eventi
+                                '<a href="listaEventi.html">'+
+                                    '<div class="w3-col l12 s6 w3-black padded10">'+
+                                        '<h6 style="margin:0px;">EVENTI<h6>'+
                                     '</div>'+
                                 '</a>'+
-                                /*
+        
                                 //lista Eventi
                                 '<a href="programma2.html">'+
                                     '<div class="w3-col l12 s6 w3-white padded10">'+

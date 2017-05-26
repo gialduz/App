@@ -1,23 +1,18 @@
 <?php
 
-header('Access-Control-Allow-Origin: *');
-
     function stampaArtista($id, $nome, $cognome, $alt_name, $foto) {
-        
-        $foto= "http://testr.altervista.org/filezdellapp/".$foto;
-        
-        $daRitornare= "<a href='artista.html?id=".$id."'>"
-            ."<div class='w3-row w3-pale-blue w3-hover-grey'>"
-                ."<div class='w3-col s2 w3-center'>"
-                        .'<div class="imgQuadrataArtista w3-circle" style="background-image: url('.$foto.');"></div>'
-                ."</div>"
-                ."<div class='w3-col s10'>"
-                        .$nome." ".$cognome." <i style='color:grey'>".$alt_name."</i>"
-                ."</div>"
-            ."</div>"
-            ."</a>";
-        return $daRitornare;
-    }
+                $daRitornare= "<a href='artista.html?id=".$id."'>"
+                    ."<div class='w3-row w3-pale-blue w3-hover-grey'>"
+                        ."<div class='w3-col s2 w3-center'>"
+                                .'<div class="imgQuadrataArtista w3-circle" style="background-image: url('.$foto.');"></div>'
+                        ."</div>"
+                        ."<div class='w3-col s10'>"
+                                .$nome." ".$cognome." <i style='color:grey'>".$alt_name."</i>"
+                        ."</div>"
+                    ."</div>"
+                    ."</a>";
+                return $daRitornare;
+            }
 
     
 

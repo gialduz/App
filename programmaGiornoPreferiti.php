@@ -21,8 +21,6 @@
 <body style="max-width:640px; margin:0 auto;">
     
     <?php
-    header('Access-Control-Allow-Origin: *');
-    
     function stampaIstanzeGiorno($giorno) {
 
         include 'php/configurazione.php';
