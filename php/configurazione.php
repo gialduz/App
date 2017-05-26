@@ -3,7 +3,7 @@
     date_default_timezone_set('UTC');
     
     $servername = "localhost";
-    $username = "root";
-    $password = "mysql";
-    $dbname = "segni";
+    $username = "testr";
+    $password = "nkj-22";
+    $dbname = "my_testr";
 ?>

@@ -25,7 +25,7 @@
                     var idEvento= window.location.href.split('evento=')[1];
 
                     $.ajax({
-                       url: "dettaglioEvento.php?evento="+idEvento,
+                       url: "http://testr.altervista.org/filezdellapp/dettaglioEvento.php?evento="+idEvento,
                        success: function(data){
                          $("#corpo").append(data);
                        }

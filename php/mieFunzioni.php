@@ -57,8 +57,10 @@ require 'funzioniMappeLuoghi.php';
         $stmt->fetch();
         $stmt->close();
         
-        
-        return "<img alt='' class='w3-image' src='".$foto."'>" ;
+        if($foto != "" && $foto != "null") $daRitornare = "<img alt='' class='w3-image' src='http://testr.altervista.org/filezdellapp/".$foto."'>";
+        else $daRitornare = "";
+            
+        return $daRitornare;
 
     }
 
@@ -359,7 +361,7 @@ require 'funzioniMappeLuoghi.php';
             
             
             $daRitornare.= "<div class='w3-col m2 s3'>"
-                        ."<div class='badge'><img src='".$foto."' class='resp'></div>"
+                        ."<div class='badge'><img src='http://testr.altervista.org/filezdellapp/".$foto."' class='resp'></div>"
                         ."<div class='badgeCaption'><span>".$alt_name."</span></div>"
                     ."</div>";
                             

@@ -55,6 +55,8 @@
                         <select id="filtraLuogo" name="filtraLuogo" class="w3-select">
                             <option value='0'> - </option>
                             <?php
+                            header('Access-Control-Allow-Origin: *');
+                            
                             include 'php/mieFunzioni.php';
                             require 'php/configurazione.php';// richiamo il file di configurazione
                             require 'php/connessione.php';// richiamo lo script responsabile della connessione a MySQL

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html>
+    
+    <?php header('Access-Control-Allow-Origin: *'); ?>
 
 <head>
     <meta name="viewport" content="initial-scale=1.0">
@@ -65,6 +67,7 @@
                         <select id="filtraLuogo" name="filtraLuogo" class="w3-select">
                             <option value='0'> - </option>
                             <?php
+                            
                             include 'php/mieFunzioni.php';
                             require 'php/configurazione.php';// richiamo il file di configurazione
                             require 'php/connessione.php';// richiamo lo script responsabile della connessione a MySQL
@@ -203,11 +206,12 @@
                     
                     giorno = $(this).prop("id");
                     sessionStorage["ultimoGiorno"]= giorno;
-                    //alert(localStorage["ultimoGiorno"]);
+                    
+                    //alert(sessionStorage["ultimoGiorno"]);
                     
                     var myTipoEvento =JSON.parse(localStorage.getItem("tipoEvento"));
                     
-                    $('#wrapIstanze').append($('<div>').load('programmaGiorno.php?giorno='+giorno+"&eta="+ localStorage["eta"]+"&famiglia="+ localStorage["famiglia"]+"&scuola="+ localStorage["scuola"]+"&gratuito="+ localStorage["gratuito"]+"&luogo="+ localStorage["luogo"]+"&tipoevento="+ myTipoEvento));
+                    $('#wrapIstanze').append($('<div>').load('http://testr.altervista.org/filezdellapp/programmaGiorno.php?giorno='+giorno+"&eta="+ localStorage["eta"]+"&famiglia="+ localStorage["famiglia"]+"&scuola="+ localStorage["scuola"]+"&gratuito="+ localStorage["gratuito"]+"&luogo="+ localStorage["luogo"]+"&tipoevento="+ myTipoEvento));
                     
                     
                     
@@ -221,7 +225,7 @@
                 function stampaProssimoGiorno(){
                     if(j<listaDate.length){
                         //$('#wrapIstanze').append("<h2 class='w3-orange'>"+listaDate[j]+"</h2>");
-                        $('#wrapIstanze').append($('<div class="paginaIstanzeGiorno">').load('programmaGiorno.php?giorno='+listaDate[j]+"&eta="+ localStorage["eta"]+"&famiglia="+ localStorage["famiglia"]+"&scuola="+ localStorage["scuola"]+"&gratuito="+ localStorage["gratuito"]+"&luogo="+ localStorage["luogo"]+"&tipoevento="+ myTipoEvento));
+                        $('#wrapIstanze').append($('<div class="paginaIstanzeGiorno">').load('http://testr.altervista.org/filezdellapp/programmaGiorno.php?giorno='+listaDate[j]+"&eta="+ localStorage["eta"]+"&famiglia="+ localStorage["famiglia"]+"&scuola="+ localStorage["scuola"]+"&gratuito="+ localStorage["gratuito"]+"&luogo="+ localStorage["luogo"]+"&tipoevento="+ myTipoEvento));
                         
                    }
                     if(j==listaDate.length){

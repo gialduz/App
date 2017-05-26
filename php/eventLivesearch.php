@@ -1,4 +1,5 @@
 <?php
+header('Access-Control-Allow-Origin: *');
 
     function stampaEventoResult($id, $nome) {
         $daRitornare= "<a href='dettaglioEvento.html?evento=".$id."'>"

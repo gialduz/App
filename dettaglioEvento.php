@@ -11,6 +11,7 @@
     <div id="corpo">
         
         <?php
+        header('Access-Control-Allow-Origin: *');
 
     include 'php/mieFunzioni.php';
 
